@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Wordmark } from "./Logo";
+import { AppearanceControl } from "./AppearanceControl";
 import { site } from "@/lib/site";
 
 const columns = [
@@ -73,6 +74,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-3 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
           <Wordmark />
+          <AppearanceControl className="self-start sm:self-auto" />
           <p>Copyright © {new Date().getFullYear()} mawaDao. Built in the open.</p>
         </div>
       </div>

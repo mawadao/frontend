@@ -4,13 +4,29 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Wordmark } from "./Logo";
+import { AppearanceControl } from "./AppearanceControl";
+import { subscribeAppearance } from "@/lib/appearance";
 import { nav } from "@/lib/site";
 
 const NAV_H = 52;
 
+/** True when the first opaque background at or above `el` (or the body's) is dark. */
+function isDark(el: Element | undefined) {
+  const chain: Element[] = [];
+  for (let node = el; node; node = node.parentElement ?? undefined) chain.push(node);
+  chain.push(document.body);
+  for (const node of chain) {
+    const m = getComputedStyle(node).backgroundColor.match(/[\d.]+/g);
+    if (!m || (m.length === 4 && Number(m[3]) < 0.5)) continue;
+    const [r, g, b] = m.slice(0, 3).map((v) => Number(v) / 255);
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.4;
+  }
+  return false;
+}
+
 /**
  * Reads what is under the bar each frame it scrolls:
- * - tone: dark glass over sections marked data-nav-tone="dark"
+ * - tone: dark glass when the background beneath is dark (in any appearance)
  * - scrolled: show the hairline only once content passes underneath
  * - active: which section the reader is in, for wayfinding
  */
@@ -24,7 +40,7 @@ function useScrollState(enabled: boolean) {
       const under = document
         .elementsFromPoint(window.innerWidth / 2, NAV_H / 2)
         .find((el) => !el.closest("header"));
-      const tone = under?.closest("[data-nav-tone]")?.getAttribute("data-nav-tone") ?? "light";
+      const tone = isDark(under) ? "dark" : "light";
 
       let active = "";
       if (enabled) {
@@ -44,7 +60,10 @@ function useScrollState(enabled: boolean) {
     read();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    // Re-read after an appearance change has painted.
+    const unsubscribe = subscribeAppearance(() => setTimeout(onScroll, 0));
     return () => {
+      unsubscribe();
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
@@ -113,6 +132,7 @@ export function Nav() {
           </ul>
 
           <div className="hidden items-center gap-4 md:flex">
+            <AppearanceControl compact className={dark ? "text-white" : "text-fg"} />
             <Link
               href="/login"
               aria-current={pathname === "/login" ? "page" : undefined}
@@ -172,6 +192,13 @@ export function Nav() {
             </li>
           ))}
         </ul>
+        <div
+          className={`mt-10 px-8 transition-opacity duration-500 ${open ? "opacity-100" : "opacity-0"}`}
+          style={{ transitionDelay: open ? "320ms" : "0ms" }}
+        >
+          <p className="mb-3 text-footnote text-fg-2">Appearance</p>
+          <AppearanceControl />
+        </div>
         <div
           className={`mt-8 flex gap-3 px-8 transition-opacity duration-500 ${open ? "opacity-100" : "opacity-0"}`}
           style={{ transitionDelay: open ? "260ms" : "0ms" }}

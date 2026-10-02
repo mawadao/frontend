@@ -7,12 +7,12 @@ import { ProjectCatalog } from "@/components/ProjectCatalog";
 import { ContactForm } from "@/components/ContactForm";
 import { site } from "@/lib/site";
 
-function SectionHead({ eyebrow, title, lede, dark }: { eyebrow: string; title: ReactNode; lede?: string; dark?: boolean }) {
+function SectionHead({ eyebrow, title, lede }: { eyebrow: string; title: ReactNode; lede?: string }) {
   return (
     <Reveal className="mx-auto mb-14 max-w-[760px] text-center">
-      <p className={`text-body font-semibold ${dark ? "text-gold" : "text-fg-2"}`}>{eyebrow}</p>
+      <p className="text-body font-semibold text-fg-2">{eyebrow}</p>
       <h2 className="mt-2 font-display text-display text-balance">{title}</h2>
-      {lede && <p className={`mt-5 text-lede text-pretty ${dark ? "text-[#a1a1a6]" : "text-fg-2"}`}>{lede}</p>}
+      {lede && <p className="mt-5 text-lede text-pretty text-fg-2">{lede}</p>}
     </Reveal>
   );
 }
@@ -157,19 +157,19 @@ export default function Home() {
   return (
     <main>
       {/* Hero */}
-      <section data-nav-tone="dark" className="relative flex min-h-svh items-center overflow-hidden bg-black text-[#f5f5f7]">
+      <section className="relative flex min-h-svh items-center overflow-hidden bg-bg text-fg">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="animate-glow absolute top-[8%] left-1/2 h-[620px] w-[620px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(127_90_240/0.45),transparent)] blur-2xl" />
-          <div className="animate-glow absolute right-[-10%] bottom-[-20%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(closest-side,rgb(252_74_26/0.22),transparent)] blur-2xl [animation-delay:200ms]" />
-          <div className="absolute inset-0 bg-[radial-gradient(rgb(255_255_255/0.07)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)] [background-size:28px_28px]" />
+          <div className="animate-glow absolute top-[8%] left-1/2 h-[620px] w-[620px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,var(--glow-violet),transparent)] blur-2xl" />
+          <div className="animate-glow absolute right-[-10%] bottom-[-20%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(closest-side,var(--glow-ember),transparent)] blur-2xl [animation-delay:200ms]" />
+          <div className="absolute inset-0 bg-[radial-gradient(var(--grid-dot)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)] [background-size:28px_28px]" />
         </div>
 
         <div className="relative mx-auto w-full max-w-[1024px] px-4 pt-28 pb-24 text-center sm:px-6">
           <Reveal>
-            <LogoMark className="mx-auto h-20 w-20 drop-shadow-[0_20px_50px_rgb(127_90_240/0.5)] sm:h-24 sm:w-24" />
+            <LogoMark className="mx-auto h-20 w-20 drop-shadow-[0_20px_50px_var(--glow-violet)] sm:h-24 sm:w-24" />
           </Reveal>
           <Reveal delay={100}>
-            <p className="mt-8 text-footnote font-medium tracking-[0.25em] text-[#a1a1a6] uppercase">
+            <p className="mt-8 text-footnote font-medium tracking-[0.25em] text-fg-2 uppercase">
               Non-profit&nbsp;&nbsp;·&nbsp;&nbsp;Community-owned&nbsp;&nbsp;·&nbsp;&nbsp;DAO
             </p>
           </Reveal>
@@ -181,13 +181,13 @@ export default function Home() {
             </h1>
           </Reveal>
           <Reveal delay={300}>
-            <p className="mx-auto mt-7 max-w-[42rem] text-lede text-pretty text-[#a1a1a6]">{site.tagline}</p>
+            <p className="mx-auto mt-7 max-w-[42rem] text-lede text-pretty text-fg-2">{site.tagline}</p>
           </Reveal>
           <Reveal delay={400} className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
             <Link href="/signup" className="press rounded-full bg-cta px-7 py-3.5 text-body font-medium text-white hover:bg-cta-hover">
               Join mawaDao
             </Link>
-            <Link href="/#how-it-works" className="group text-body text-[#2997ff] hover:underline">
+            <Link href="/#how-it-works" className="group text-body text-link hover:underline">
               See how it works
               <span className="ml-1 inline-block transition-transform group-hover:translate-x-1">›</span>
             </Link>
@@ -197,9 +197,9 @@ export default function Home() {
         <a
           href="#why"
           aria-label="Scroll to learn more"
-          className="absolute bottom-8 left-1/2 flex h-10 w-6 -translate-x-1/2 justify-center rounded-full border border-white/25 pt-2"
+          className="absolute bottom-8 left-1/2 flex h-10 w-6 -translate-x-1/2 justify-center rounded-full border border-fg/25 pt-2"
         >
-          <span className="h-2 w-1 rounded-full bg-white/60 motion-safe:animate-bounce" />
+          <span className="h-2 w-1 rounded-full bg-fg/50 motion-safe:animate-bounce" />
         </a>
       </section>
 
@@ -310,21 +310,20 @@ export default function Home() {
       </section>
 
       {/* Governance */}
-      <section id="governance" data-nav-tone="dark" className="bg-black px-4 py-24 text-[#f5f5f7] sm:px-6 sm:py-32">
+      <section id="governance" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
-            dark
             eyebrow="Governance"
             title="Decisions made close to the people they affect."
             lede="mawaDao combines the principles of a decentralised autonomous organisation with AI. Proposals, votes and outcomes are recorded on-chain, so every decision can be traced and audited."
           />
           <div className="grid gap-5 lg:grid-cols-3">
             {levels.map((l, i) => (
-              <Reveal key={l.level} delay={i * 110} className="rounded-[28px] border border-white/10 bg-[#161617] p-8">
-                <p className="text-footnote font-semibold tracking-[0.06em] text-gold uppercase">Level {i + 1}</p>
+              <Reveal key={l.level} delay={i * 110} className="rounded-[28px] bg-bg-alt p-8">
+                <p className="text-footnote font-semibold tracking-[0.06em] text-accent-text uppercase">Level {i + 1}</p>
                 <h3 className="mt-2 font-display text-title">{l.level}</h3>
-                <p className="mt-3 text-callout text-[#a1a1a6]">{l.who}</p>
-                <p className="mt-6 text-footnote font-semibold tracking-[0.06em] text-[#86868b] uppercase">Decides</p>
+                <p className="mt-3 text-callout text-fg-2">{l.who}</p>
+                <p className="mt-6 text-footnote font-semibold tracking-[0.06em] text-fg-2 uppercase">Decides</p>
                 <ul className="mt-3 space-y-2">
                   {l.decides.map((d) => (
                     <li key={d} className="flex gap-3 text-body">
@@ -340,7 +339,7 @@ export default function Home() {
       </section>
 
       {/* Responsible AI and child safety */}
-      <section id="safety" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
+      <section id="safety" className="bg-bg-alt px-4 py-24 sm:px-6 sm:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
             eyebrow="Responsible AI and child safety"
@@ -350,7 +349,7 @@ export default function Home() {
           <div className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {safety.map((s, i) => (
               <Reveal key={s.title} delay={(i % 3) * 90}>
-                <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-bg-alt text-cta">
+                <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-surface text-cta">
                   <Icon name={s.icon} className="h-6 w-6" />
                 </span>
                 <h3 className="mt-5 text-headline">{s.title}</h3>
@@ -362,12 +361,12 @@ export default function Home() {
       </section>
 
       {/* Who it is for */}
-      <section id="who" className="bg-bg-alt px-4 py-24 sm:px-6 sm:py-32">
+      <section id="who" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead eyebrow="Who it is for" title="A place for everyone who wants to help." />
           <div className="grid gap-5 sm:grid-cols-2">
             {audiences.map((a, i) => (
-              <Reveal key={a.who} delay={(i % 2) * 90} className="flex gap-6 rounded-[28px] bg-surface p-8">
+              <Reveal key={a.who} delay={(i % 2) * 90} className="flex gap-6 rounded-[28px] bg-bg-alt p-8">
                 <span className="text-ember">
                   <Icon name={a.icon} className="h-8 w-8" />
                 </span>
@@ -382,7 +381,7 @@ export default function Home() {
       </section>
 
       {/* Roadmap */}
-      <section id="roadmap" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
+      <section id="roadmap" className="bg-bg-alt px-4 py-24 sm:px-6 sm:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
             eyebrow="Roadmap"
@@ -397,7 +396,7 @@ export default function Home() {
             {phases.map(([title, body], i) => (
               <Reveal as="li" key={title} delay={i * 100} className="relative lg:text-center">
                 <div className="flex items-center gap-4 lg:block">
-                  <span className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-callout font-semibold text-ember lg:mx-auto">
+                  <span className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-callout font-semibold text-accent-text lg:mx-auto">
                     {i + 1}
                   </span>
                   <div className="lg:mt-6">
@@ -413,7 +412,7 @@ export default function Home() {
       </section>
 
       {/* Get involved */}
-      <section id="contact" className="bg-bg-alt px-4 py-24 sm:px-6 sm:py-32">
+      <section id="contact" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
         <div className="mx-auto grid max-w-[1100px] gap-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <Reveal>
             <p className="text-body font-semibold text-fg-2">Get involved</p>
@@ -449,7 +448,7 @@ export default function Home() {
               ))}
             </ul>
           </Reveal>
-          <Reveal delay={120} className="self-start rounded-[28px] bg-surface p-6 sm:p-10">
+          <Reveal delay={120} className="self-start rounded-[28px] bg-bg-alt p-6 sm:p-10">
             <ContactForm />
           </Reveal>
         </div>

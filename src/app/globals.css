@@ -1,38 +1,57 @@
 @import "tailwindcss";
 
 /*
+ * Appearance. `color-scheme` decides the theme: it follows the system by
+ * default, and <html data-theme="light|dark"> pins it (set before first paint
+ * by the inline script in layout.tsx). Every colour token is written once with
+ * light-dark(), so both themes stay in step.
+ */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+:root {
+  color-scheme: light dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/*
  * Design tokens. Neutral surfaces and type carry the page (Apple-style
  * deference); the gold→orange brand gradient is used sparingly for emphasis.
  */
 :root {
-  --bg: #ffffff;
-  --bg-alt: #f5f5f7;
-  --surface: #ffffff;
-  --fg: #1d1d1f;
-  --fg-2: #6e6e73;
-  --line: rgb(0 0 0 / 0.1);
-  --link: #0066cc;
+  --bg: light-dark(#ffffff, #000000);
+  --bg-alt: light-dark(#f5f5f7, #101012);
+  --surface: light-dark(#ffffff, #1d1d1f);
+  --fg: light-dark(#1d1d1f, #f5f5f7);
+  --fg-2: light-dark(#6e6e73, #a1a1a6);
+  --line: light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.14));
+  --link: light-dark(#0066cc, #2997ff);
   --cta: #0071e3;
   --cta-hover: #0077ed;
-  --field: #ffffff;
+  --field: light-dark(#ffffff, #1d1d1f);
+  /* Brand accent for small text: darker in light mode to keep 4.5:1 contrast. */
+  --accent-text: light-dark(#c2410c, #ff8a5b);
+  /* Hero glow is softer on white so it reads as light, not a stain. */
+  --glow-violet: light-dark(rgb(127 90 240 / 0.16), rgb(127 90 240 / 0.45));
+  --glow-ember: light-dark(rgb(252 74 26 / 0.1), rgb(252 74 26 / 0.22));
+  --grid-dot: light-dark(rgb(0 0 0 / 0.07), rgb(255 255 255 / 0.07));
 
-  /* Nav material: light glass by default, dark glass over dark sections. */
-  --nav-light: rgb(251 251 253 / 0.72);
+  /* Nav material: light glass over light sections, dark glass over dark ones. */
+  --nav-light: light-dark(rgb(251 251 253 / 0.72), rgb(22 22 23 / 0.72));
   --nav-dark: rgb(22 22 23 / 0.72);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #000000;
-    --bg-alt: #101012;
-    --surface: #1d1d1f;
-    --fg: #f5f5f7;
-    --fg-2: #a1a1a6;
-    --line: rgb(255 255 255 / 0.14);
-    --link: #2997ff;
-    --field: #1d1d1f;
-    --nav-light: rgb(22 22 23 / 0.72);
-  }
 }
 
 @theme inline {
@@ -46,6 +65,7 @@
   --color-cta: var(--cta);
   --color-cta-hover: var(--cta-hover);
   --color-field: var(--field);
+  --color-accent-text: var(--accent-text);
   --color-gold: #f7b733;
   --color-ember: #fc4a1a;
   --color-violet: #7f5af0;
@@ -255,14 +275,15 @@ label {
 
 @media (prefers-contrast: more) {
   :root {
-    --fg-2: #3a3a3c;
-    --line: rgb(0 0 0 / 0.4);
+    --fg-2: light-dark(#3a3a3c, #d1d1d6);
+    --line: light-dark(rgb(0 0 0 / 0.4), rgb(255 255 255 / 0.45));
     --nav-light: var(--bg);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --fg-2: #d1d1d6;
-      --line: rgb(255 255 255 / 0.45);
-    }
-  }
+}
+
+/* Cross-fade between appearances instead of an abrupt brightness jump. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: ease;
 }
