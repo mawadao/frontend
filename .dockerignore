@@ -1,0 +1,11 @@
+.git
+.next
+node_modules
+npm-debug.log*
+.env*
+.agents
+.claude
+skills-lock.json
+*.tsbuildinfo
+Dockerfile
+.dockerignore
