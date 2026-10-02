@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { GalleryAutoplay } from "@/components/GalleryAutoplay";
 import { site } from "@/lib/site";
 import { appearanceScript } from "@/lib/appearance";
 import "./globals.css";
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Nav />
         <div className="flex-1">{children}</div>
         <Footer />
+        <GalleryAutoplay />
       </body>
     </html>
   );

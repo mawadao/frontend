@@ -223,6 +223,21 @@ label {
       flex: 0 0 min(82%, 22rem);
       scroll-snap-align: start;
     }
+    /* Cards gain depth as they slide in from the edge. `scale` leaves the reveal's transform alone. */
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+        & > * {
+          animation: gallery-card linear both;
+          animation-timeline: view(inline);
+          animation-range: entry 0% entry 100%;
+        }
+      }
+    }
+  }
+}
+@keyframes gallery-card {
+  from {
+    scale: 0.92;
   }
 }
 
