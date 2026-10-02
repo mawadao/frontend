@@ -16,19 +16,19 @@ export function Field({
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? `${id}-err` : undefined}
           {...props}
-          className={`peer h-14 w-full rounded-xl border bg-field px-4 pt-5 text-[17px] outline-none transition-shadow focus:ring-4 ${
+          className={`peer h-14 w-full rounded-xl border bg-field px-4 pt-5 text-body outline-none transition-[box-shadow,border-color] duration-200 focus:ring-4 ${
             error ? "border-[#e30000] focus:ring-[#e30000]/15" : "border-line focus:border-cta focus:ring-cta/20"
           }`}
         />
         <label
           htmlFor={id}
-          className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-[17px] text-fg-2 transition-all duration-200 peer-focus:top-4 peer-focus:text-[12px] peer-[:not(:placeholder-shown)]:top-4 peer-[:not(:placeholder-shown)]:text-[12px]"
+          className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-body text-fg-2 transition-all duration-300 ease-[var(--ease-spring)] peer-focus:top-4 peer-focus:text-caption peer-[:not(:placeholder-shown)]:top-4 peer-[:not(:placeholder-shown)]:text-caption"
         >
           {label}
         </label>
       </div>
       {error && (
-        <p id={`${id}-err`} className="mt-1.5 px-1 text-[13px] text-[#e30000] dark:text-[#ff6961]">
+        <p id={`${id}-err`} role="alert" className="animate-fade mt-1.5 px-1 text-footnote text-[#e30000] dark:text-[#ff6961]">
           {error}
         </p>
       )}

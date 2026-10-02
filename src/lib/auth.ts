@@ -20,7 +20,7 @@ export async function signIn(_input: { email: string; password: string }): Promi
   return notConnected;
 }
 
-export async function signUp(_input: { name: string; email: string; password: string }): Promise<AuthResult> {
+export async function signUp(_input: { name: string; role: string; email: string; password: string }): Promise<AuthResult> {
   await pause();
   return notConnected;
 }

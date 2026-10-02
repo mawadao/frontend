@@ -40,7 +40,7 @@ export function Wordmark() {
   return (
     <span className="flex items-center gap-2">
       <LogoMark className="h-6 w-6" />
-      <span className="text-[15px] font-semibold tracking-tight">
+      <span className="text-callout font-semibold tracking-[-0.01em]">
         MAWA <span className="text-brand">DAO</span>
       </span>
     </span>

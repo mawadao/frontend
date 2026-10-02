@@ -14,8 +14,11 @@
   --link: #0066cc;
   --cta: #0071e3;
   --cta-hover: #0077ed;
-  --nav-bg: rgb(251 251 253 / 0.72);
   --field: #ffffff;
+
+  /* Nav material: light glass by default, dark glass over dark sections. */
+  --nav-light: rgb(251 251 253 / 0.72);
+  --nav-dark: rgb(22 22 23 / 0.72);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,8 +30,8 @@
     --fg-2: #a1a1a6;
     --line: rgb(255 255 255 / 0.14);
     --link: #2997ff;
-    --nav-bg: rgb(22 22 23 / 0.72);
     --field: #1d1d1f;
+    --nav-light: rgb(22 22 23 / 0.72);
   }
 }
 
@@ -46,24 +49,101 @@
   --color-gold: #f7b733;
   --color-ember: #fc4a1a;
   --color-violet: #7f5af0;
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--font-inter), system-ui, sans-serif;
-  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", var(--font-inter), system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, var(--font-inter), system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, var(--font-inter), system-ui, sans-serif;
+
+  /*
+   * Type scale. Each step sets size, leading, tracking and weight together:
+   * large type gets tight leading and negative tracking, small type gets
+   * looser leading and tracking near zero. Sizes are in rem so the layout
+   * follows the reader's own font-size setting.
+   */
+  --text-hero: clamp(3.25rem, 7.5vw, 6rem);
+  --text-hero--line-height: 1.02;
+  --text-hero--letter-spacing: -0.035em;
+  --text-hero--font-weight: 600;
+
+  --text-display: clamp(2.5rem, 5vw, 3.5rem);
+  --text-display--line-height: 1.07;
+  --text-display--letter-spacing: -0.028em;
+  --text-display--font-weight: 600;
+
+  --text-statement: clamp(2rem, 4vw, 3rem);
+  --text-statement--line-height: 1.12;
+  --text-statement--letter-spacing: -0.024em;
+  --text-statement--font-weight: 600;
+
+  --text-figure: clamp(3rem, 5vw, 3.5rem);
+  --text-figure--line-height: 1;
+  --text-figure--letter-spacing: -0.03em;
+  --text-figure--font-weight: 600;
+
+  --text-title: 1.75rem;
+  --text-title--line-height: 1.14;
+  --text-title--letter-spacing: -0.02em;
+  --text-title--font-weight: 600;
+
+  --text-headline: 1.5rem;
+  --text-headline--line-height: 1.17;
+  --text-headline--letter-spacing: -0.018em;
+  --text-headline--font-weight: 600;
+
+  --text-subhead: 1.1875rem;
+  --text-subhead--line-height: 1.32;
+  --text-subhead--letter-spacing: -0.012em;
+
+  --text-lede: clamp(1.1875rem, 2vw, 1.3125rem);
+  --text-lede--line-height: 1.4;
+  --text-lede--letter-spacing: -0.012em;
+
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.47;
+  --text-body--letter-spacing: -0.01em;
+
+  --text-callout: 0.9375rem;
+  --text-callout--line-height: 1.45;
+  --text-callout--letter-spacing: -0.005em;
+
+  --text-footnote: 0.8125rem;
+  --text-footnote--line-height: 1.4;
+  --text-footnote--letter-spacing: 0;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.35;
+  --text-caption--letter-spacing: 0.01em;
+
+  /* Critically damped spring (damping 1.0, response 0.4s) as a CSS easing. */
+  --ease-spring: linear(0, 0.0667, 0.2048, 0.3577, 0.4991, 0.6189, 0.7154, 0.7905, 0.8475, 0.89, 0.9213, 0.9441, 0.9605, 0.9722, 0.9805, 0.9864, 0.9905, 0.9934, 0.9955, 0.9969, 0.9978, 0.9985, 0.999, 0.9993, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 64px;
+  scroll-padding-top: 3.25rem;
+  font-size: 100%;
 }
 
 body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
-  font-size: 17px;
-  line-height: 1.47;
-  letter-spacing: -0.022em;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  letter-spacing: var(--text-body--letter-spacing);
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* No double-tap zoom anywhere, so taps are never delayed. */
+a,
+button,
+input,
+select,
+textarea,
+label {
+  touch-action: manipulation;
 }
 
 ::selection {
@@ -77,14 +157,53 @@ body {
   color: transparent;
 }
 
+/*
+ * Press feedback: lands on pointer-down and is instant; release springs back.
+ * `press` owns the element's whole transition list, so don't combine it with
+ * Tailwind transition-* classes.
+ */
+@utility press {
+  scale: 1;
+  transition:
+    scale 0.4s var(--ease-spring),
+    translate 0.5s var(--ease-spring),
+    box-shadow 0.5s var(--ease-spring),
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+  &:active:not(:disabled) {
+    scale: 0.97;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-out;
+  }
+}
+
+/* Nav glass. Swaps to the dark material over dark sections. */
+@utility material-nav {
+  background: var(--nav-light);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  transition: background-color 0.3s ease;
+  [data-tone="dark"] & {
+    background: var(--nav-dark);
+  }
+  /* Opened into a full-screen sheet it is a much bigger surface, so it reads thicker. */
+  [data-open="true"] & {
+    background: color-mix(in srgb, var(--bg) 98%, transparent);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+  }
+}
+
 /* Scroll reveal: content is only hidden when scripting can reveal it again. */
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   [data-reveal] {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(1.75rem);
     transition:
-      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 0.9s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo);
     transition-delay: var(--reveal-delay, 0ms);
   }
   [data-reveal="shown"] {
@@ -92,19 +211,58 @@ body {
     transform: none;
   }
 }
-
-@keyframes float-glow {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
+@media (scripting: enabled) and (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-  50% {
-    transform: translate3d(0, -24px, 0) scale(1.06);
+  [data-reveal="shown"] {
+    opacity: 1;
   }
 }
 
+/* Hero glow settles once on load instead of looping. */
+@keyframes glow-settle {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 2rem, 0) scale(0.92);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   .animate-glow {
-    animation: float-glow 12s ease-in-out infinite;
+    animation: glow-settle 1.6s var(--ease-out-expo) both;
+  }
+}
+.animate-fade {
+  animation: fade-in 0.3s ease-out both;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --nav-light: var(--bg);
+    --nav-dark: #161617;
+  }
+  .material-nav {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --fg-2: #3a3a3c;
+    --line: rgb(0 0 0 / 0.4);
+    --nav-light: var(--bg);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fg-2: #d1d1d6;
+      --line: rgb(255 255 255 / 0.45);
+    }
   }
 }

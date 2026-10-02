@@ -4,7 +4,13 @@ import { useState, type FormEvent } from "react";
 import { Field } from "./Field";
 import { site } from "@/lib/site";
 
-const topics = ["Join as a contributor", "Propose a project", "Partner or donate", "Something else"];
+const topics = [
+  "Become a founding contributor",
+  "List an AI agent",
+  "Education partner or pilot community",
+  "Funder, NGO or partner",
+  "Something else",
+];
 
 /** No backend yet: submitting opens the visitor's mail app with the message prefilled. */
 export function ContactForm() {
@@ -28,7 +34,7 @@ export function ContactForm() {
         <select
           name="topic"
           defaultValue={topics[0]}
-          className="h-14 w-full appearance-none rounded-xl border border-line bg-field px-4 text-[17px] outline-none focus:border-cta focus:ring-4 focus:ring-cta/20"
+          className="h-14 w-full appearance-none rounded-xl border border-line bg-field px-4 text-body outline-none transition-[box-shadow,border-color] duration-200 focus:border-cta focus:ring-4 focus:ring-cta/20"
         >
           {topics.map((t) => (
             <option key={t}>{t}</option>
@@ -44,18 +50,18 @@ export function ContactForm() {
           name="message"
           required
           rows={4}
-          placeholder="Tell us what you'd like to build, learn or support."
-          className="w-full resize-none rounded-xl border border-line bg-field px-4 py-3.5 text-[17px] outline-none placeholder:text-fg-2 focus:border-cta focus:ring-4 focus:ring-cta/20"
+          placeholder="Tell us how you'd like to help, or what your school or community needs."
+          className="w-full resize-none rounded-xl border border-line bg-field px-4 py-3.5 text-body outline-none transition-[box-shadow,border-color] duration-200 placeholder:text-fg-2 focus:border-cta focus:ring-4 focus:ring-cta/20"
         />
       </label>
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
         <button
           type="submit"
-          className="rounded-full bg-cta px-6 py-3 text-[17px] font-medium text-white transition-colors hover:bg-cta-hover"
+          className="press rounded-full bg-cta px-6 py-3 text-body font-medium text-white hover:bg-cta-hover"
         >
           Send message
         </button>
-        <p className="text-[14px] text-fg-2" aria-live="polite">
+        <p className="text-callout text-fg-2" aria-live="polite">
           {sent ? "Your mail app should open with the message ready to send." : <>Or write to <a className="text-link hover:underline" href={`mailto:${site.email}`}>{site.email}</a></>}
         </p>
       </div>

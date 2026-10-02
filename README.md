@@ -1,6 +1,8 @@
-# MAWA DAO — frontend
+# mawaDao — frontend
 
-The website for [MAWA DAO](https://mawadao.com), a Decentralized Autonomous Organization of developers and students building open source, AI agents & MCP, and Web3, and giving back to fight world hunger and fund orphan education.
+The website for [mawaDao](https://mawadao.com): **a non-profit, community-owned marketplace for responsible AI agents, built to bring quality education to underserved children and orphans.**
+
+Developers build and list AI agents. Schools, orphanages, community educators and small businesses use them free of charge. The value created flows back to the community that built it, and the people affected by the platform decide how it is run, through a decentralised autonomous organisation (DAO).
 
 Built with Next.js 16 (App Router), React 19, TypeScript and Tailwind CSS v4. The design follows Apple's principles of clarity, deference and depth: system typography, generous whitespace, neutral surfaces, a single accent, frosted navigation, scroll reveals, and automatic light and dark mode.
 
@@ -8,7 +10,7 @@ Built with Next.js 16 (App Router), React 19, TypeScript and Tailwind CSS v4. Th
 
 | Route     | What it is |
 | --------- | ---------- |
-| `/`       | Landing: hero, mission, **project catalog**, what we do, governance, roadmap, get in touch |
+| `/`       | Landing: mission, how it works, key features, **project catalog**, governance, child safety, who it is for, roadmap, get involved |
 | `/login`  | Sign in (email, GitHub, wallet) |
 | `/signup` | Create an account |
 
@@ -35,4 +37,8 @@ The contact form has no backend either. It opens the visitor's mail app with the
 
 ## Contributing
 
-Pick something, open a pull request, and say hi on [GitHub](https://github.com/mawadao).
+Pick something, open a pull request, and say hi on [GitHub](https://github.com/mawadao). Not every contribution is code: reviewing agents for safety, translating content and connecting schools all count.
+
+## Licence
+
+Open source under the [Apache 2.0 Licence](LICENSE).

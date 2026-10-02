@@ -22,12 +22,12 @@ const gh = (repo: string) => `https://github.com/mawadao/${repo}`;
 export const projects: (Project & { href: string })[] = (
   [
     {
-      name: "MAWA Platform",
+      name: "mawaDao Platform",
       repo: "mawadao",
       category: "Flagship",
       language: "TypeScript",
       summary:
-        "Our own platform: a Next.js web app, an Electron desktop app, data pipelines and the cloud infrastructure behind them.",
+        "The home of the agent marketplace: a Next.js web app, an Electron desktop app, data pipelines and the cloud infrastructure behind them.",
       status: "Building",
     },
     {

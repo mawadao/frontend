@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { AuthForm } from "@/components/AuthForm";
 
-export const metadata: Metadata = { title: "Join the DAO" };
+export const metadata: Metadata = { title: "Join" };
 
 export default function SignupPage() {
   return (

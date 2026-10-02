@@ -6,9 +6,10 @@ const columns = [
   {
     title: "Explore",
     links: [
+      { label: "How it works", href: "/#how-it-works" },
       { label: "Projects", href: "/#projects" },
-      { label: "What we do", href: "/#what-we-do" },
       { label: "Governance", href: "/#governance" },
+      { label: "Child safety", href: "/#safety" },
       { label: "Roadmap", href: "/#roadmap" },
     ],
   },
@@ -30,7 +31,7 @@ const columns = [
   {
     title: "Get in touch",
     links: [
-      { label: "Contact us", href: "/#contact" },
+      { label: "Get involved", href: "/#contact" },
       { label: site.email, href: `mailto:${site.email}` },
     ],
   },
@@ -38,12 +39,13 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="bg-bg-alt text-[12px] text-fg-2">
+    <footer className="border-t border-line bg-bg-alt text-caption text-fg-2">
       <div className="mx-auto max-w-[1024px] px-4 pt-12 pb-8 sm:px-6">
         <p className="border-b border-line pb-4 leading-relaxed">
-          MAWA DAO is a Decentralized Autonomous Organization. A portion of every project&apos;s success goes toward
-          fighting world hunger and funding orphan education. Project names and marks belong to their respective
-          owners; listed open-source projects are ones our members contribute to.
+          mawaDao is a non-profit, community-owned marketplace for responsible AI agents, governed as a decentralised
+          autonomous organisation. Built by the community, owned by the community, for the children who need it most.
+          Open source under the Apache 2.0 Licence. Project names and marks in the catalog belong to their respective
+          owners.
         </p>
 
         <div className="grid grid-cols-2 gap-8 py-8 sm:grid-cols-4">
@@ -71,7 +73,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-3 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
           <Wordmark />
-          <p>Copyright © {new Date().getFullYear()} MAWA DAO. Built in the open.</p>
+          <p>Copyright © {new Date().getFullYear()} mawaDao. Built in the open.</p>
         </div>
       </div>
     </footer>
