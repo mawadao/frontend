@@ -23,6 +23,12 @@ function Segmented({ value, onChange }: { value: Filter; onChange: (v: Filter) =
       if (el) setThumb({ x: el.offsetLeft, w: el.offsetWidth });
     };
     measure();
+    const el = refs.current[value];
+    const strip = el?.closest<HTMLElement>("[data-strip]");
+    if (el && strip) {
+      const target = el.offsetLeft - (strip.clientWidth - el.offsetWidth) / 2;
+      strip.scrollTo({ left: target, behavior: "smooth" });
+    }
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, [value]);
@@ -37,12 +43,12 @@ function Segmented({ value, onChange }: { value: Filter; onChange: (v: Filter) =
   }
 
   return (
-    <div className="mx-auto mb-12 w-fit max-w-full overflow-x-auto [scrollbar-width:none]">
+    <div data-strip className="-mx-4 mb-8 overflow-x-auto px-4 [scrollbar-width:none] max-sm:[mask-image:linear-gradient(to_right,transparent,black_1rem,black_calc(100%-2.5rem),transparent)] sm:mx-auto sm:mb-12 sm:w-fit sm:max-w-full sm:px-0 [&::-webkit-scrollbar]:hidden">
       <div
         role="tablist"
         aria-label="Filter projects by category"
         onKeyDown={onKey}
-        className="relative flex gap-1 rounded-full bg-surface p-1 shadow-[0_1px_2px_rgb(0_0_0/0.06)]"
+        className="relative flex w-max gap-1 rounded-full bg-surface p-1 shadow-[0_1px_2px_rgb(0_0_0/0.06)]"
       >
         {thumb && (
           <span
@@ -85,14 +91,14 @@ export function ProjectCatalog() {
         {shown.length} projects shown
       </p>
 
-      <ul key={filter} className="animate-fade grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <ul key={filter} className="animate-fade gallery sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {shown.map((p) => (
           <li key={p.repo} className={p.category === "Flagship" && filter === "All" ? "sm:col-span-2 lg:col-span-3" : ""}>
             <a
               href={p.href}
               target="_blank"
               rel="noreferrer"
-              className="press group flex h-full flex-col rounded-[28px] bg-surface p-7 motion-safe:hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgb(0_0_0/0.25)]"
+              className="press group flex h-full flex-col rounded-[28px] bg-surface p-6 sm:p-7 motion-safe:hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgb(0_0_0/0.25)]"
             >
               <div className="flex items-start justify-between gap-4">
                 <span
@@ -109,7 +115,7 @@ export function ProjectCatalog() {
                   {p.status}
                 </span>
               </div>
-              <p className="mt-6 text-caption font-medium tracking-[0.06em] text-fg-2 uppercase">{p.category}</p>
+              <p className="mt-5 text-caption font-medium sm:mt-6 tracking-[0.06em] text-fg-2 uppercase">{p.category}</p>
               <h3 className="mt-1 text-headline">{p.name}</h3>
               <p className="mt-3 flex-1 text-body text-fg-2">{p.summary}</p>
               <div className="mt-6 flex items-center justify-between text-callout">

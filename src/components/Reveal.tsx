@@ -27,7 +27,7 @@ export function Reveal({
           io.disconnect();
         }
       },
-      { rootMargin: "0px 0px -10% 0px" },
+      { rootMargin: "0px 100% -10% 100%" },
     );
     io.observe(el);
     return () => io.disconnect();

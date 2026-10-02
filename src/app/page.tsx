@@ -9,8 +9,8 @@ import { site } from "@/lib/site";
 
 function SectionHead({ eyebrow, title, lede }: { eyebrow: string; title: ReactNode; lede?: string }) {
   return (
-    <Reveal className="mx-auto mb-14 max-w-[760px] text-center">
-      <p className="text-body font-semibold text-fg-2">{eyebrow}</p>
+    <Reveal className="mx-auto mb-10 max-w-[760px] text-center sm:mb-14">
+      <p className="text-callout font-semibold text-fg-2 sm:text-body">{eyebrow}</p>
       <h2 className="mt-2 font-display text-display text-balance">{title}</h2>
       {lede && <p className="mt-5 text-lede text-pretty text-fg-2">{lede}</p>}
     </Reveal>
@@ -164,12 +164,12 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(var(--grid-dot)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)] [background-size:28px_28px]" />
         </div>
 
-        <div className="relative mx-auto w-full max-w-[1024px] px-4 pt-28 pb-24 text-center sm:px-6">
+        <div className="relative mx-auto w-full max-w-[1024px] px-4 pt-24 pb-20 text-center sm:px-6 sm:pt-28 sm:pb-24">
           <Reveal>
-            <LogoMark className="mx-auto h-20 w-20 drop-shadow-[0_20px_50px_var(--glow-violet)] sm:h-24 sm:w-24" />
+            <LogoMark className="mx-auto h-16 w-16 drop-shadow-[0_20px_50px_var(--glow-violet)] sm:h-24 sm:w-24" />
           </Reveal>
           <Reveal delay={100}>
-            <p className="mt-8 text-footnote font-medium tracking-[0.25em] text-fg-2 uppercase">
+            <p className="mt-6 text-caption font-medium tracking-[0.16em] whitespace-nowrap text-fg-2 uppercase max-[360px]:text-[0.6875rem] max-[360px]:tracking-[0.08em] sm:mt-8 sm:text-footnote sm:tracking-[0.25em]">
               Non-profit&nbsp;&nbsp;·&nbsp;&nbsp;Community-owned&nbsp;&nbsp;·&nbsp;&nbsp;DAO
             </p>
           </Reveal>
@@ -181,9 +181,9 @@ export default function Home() {
             </h1>
           </Reveal>
           <Reveal delay={300}>
-            <p className="mx-auto mt-7 max-w-[42rem] text-lede text-pretty text-fg-2">{site.tagline}</p>
+            <p className="mx-auto mt-5 max-w-[42rem] text-lede text-pretty text-fg-2 sm:mt-7">{site.tagline}</p>
           </Reveal>
-          <Reveal delay={400} className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+          <Reveal delay={400} className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 sm:mt-10">
             <Link href="/signup" className="press rounded-full bg-cta px-7 py-3.5 text-body font-medium text-white hover:bg-cta-hover">
               Join mawaDao
             </Link>
@@ -197,14 +197,14 @@ export default function Home() {
         <a
           href="#why"
           aria-label="Scroll to learn more"
-          className="absolute bottom-8 left-1/2 flex h-10 w-6 -translate-x-1/2 justify-center rounded-full border border-fg/25 pt-2"
+          className="absolute bottom-8 left-1/2 hidden h-10 w-6 -translate-x-1/2 justify-center rounded-full border border-fg/25 pt-2 [@media(min-height:700px)]:flex"
         >
           <span className="h-2 w-1 rounded-full bg-fg/50 motion-safe:animate-bounce" />
         </a>
       </section>
 
       {/* Why this exists + mission */}
-      <section id="why" className="bg-bg px-4 py-28 sm:px-6 sm:py-36">
+      <section id="why" className="bg-bg px-4 py-20 sm:px-6 sm:py-28 lg:py-36">
         <Reveal className="mx-auto max-w-[900px] text-center">
           <p className="font-display text-statement text-balance">
             Millions of children have no access to good teachers, tutoring or learning resources.{" "}
@@ -214,7 +214,7 @@ export default function Home() {
           </p>
         </Reveal>
 
-        <dl className="mx-auto mt-20 grid max-w-[900px] grid-cols-2 gap-y-10 text-center sm:grid-cols-4">
+        <dl className="mx-auto mt-12 grid max-w-[900px] grid-cols-2 gap-x-4 gap-y-8 text-center sm:mt-20 sm:grid-cols-4 sm:gap-y-10">
           {[
             ["Free", "for schools and educators"],
             ["0%", "commission on educational use"],
@@ -225,20 +225,20 @@ export default function Home() {
               <dt className="sr-only">{label}</dt>
               <dd>
                 <span className="block font-display text-figure">{value}</span>
-                <span className="mt-2 block text-callout text-fg-2">{label}</span>
+                <span className="mt-2 block text-footnote text-fg-2 sm:text-callout">{label}</span>
               </dd>
             </Reveal>
           ))}
         </dl>
 
-        <Reveal className="mx-auto mt-24 max-w-[900px] rounded-[28px] bg-gradient-to-br from-[#0f0c29] via-[#24243e] to-[#302b63] px-8 py-12 text-center text-[#f5f5f7] sm:px-16 sm:py-16">
-          <p className="text-body font-semibold text-gold">Our mission</p>
-          <p className="mt-4 font-display text-headline text-balance sm:text-title">{site.mission}</p>
+        <Reveal className="mx-auto mt-14 max-w-[900px] rounded-[28px] bg-gradient-to-br from-[#0f0c29] via-[#24243e] to-[#302b63] px-6 py-10 text-center text-[#f5f5f7] sm:mt-24 sm:px-16 sm:py-16">
+          <p className="text-callout font-semibold text-gold sm:text-body">Our mission</p>
+          <p className="mt-3 font-display text-subhead font-semibold text-balance sm:mt-4 sm:text-title">{site.mission}</p>
         </Reveal>
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="bg-bg-alt px-4 py-24 sm:px-6 sm:py-32">
+      <section id="how-it-works" className="bg-bg-alt px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
             eyebrow="How it works"
@@ -251,11 +251,11 @@ export default function Home() {
             }
             lede="Developers build and list agents. Schools, orphanages, educators and small businesses use them free of charge. The value flows back to the community that built it."
           />
-          <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ol className="gallery sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {steps.map(([title, body], i) => (
-              <Reveal as="li" key={title} delay={(i % 3) * 90} className="rounded-[28px] bg-surface p-8">
+              <Reveal as="li" key={title} delay={(i % 3) * 90} className="rounded-[28px] bg-surface p-7 sm:p-8">
                 <span className="font-display text-figure text-brand">{i + 1}</span>
-                <h3 className="mt-6 text-headline">{title}</h3>
+                <h3 className="mt-4 text-headline sm:mt-6">{title}</h3>
                 <p className="mt-2 text-body text-fg-2">{body}</p>
               </Reveal>
             ))}
@@ -264,22 +264,22 @@ export default function Home() {
       </section>
 
       {/* Key features */}
-      <section id="features" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
+      <section id="features" className="bg-bg px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead eyebrow="Key features" title="Accountability built in, not bolted on." />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="gallery sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {features.map((f, i) => (
               <Reveal
                 key={f.title}
                 delay={(i % 3) * 90}
-                className={`flex min-h-[260px] flex-col justify-between rounded-[28px] p-8 sm:p-10 ${f.className ?? ""} ${
+                className={`flex flex-col justify-between rounded-[28px] p-7 sm:min-h-[260px] sm:p-10 ${f.className ?? ""} ${
                   f.feature ? "bg-gradient-to-br from-[#0f0c29] via-[#24243e] to-[#302b63] text-[#f5f5f7]" : "bg-bg-alt"
                 }`}
               >
                 <span className={f.feature ? "text-gold" : "text-ember"}>
-                  <Icon name={f.icon} className="h-9 w-9" />
+                  <Icon name={f.icon} className="h-8 w-8 sm:h-9 sm:w-9" />
                 </span>
-                <div className="mt-10">
+                <div className="mt-8 sm:mt-10">
                   <h3 className="font-display text-title">{f.title}</h3>
                   <p className={`mt-3 max-w-[40rem] text-body ${f.feature ? "text-[#c7c7cc]" : "text-fg-2"}`}>{f.body}</p>
                 </div>
@@ -290,7 +290,7 @@ export default function Home() {
       </section>
 
       {/* Project catalog */}
-      <section id="projects" className="bg-bg-alt px-4 py-24 sm:px-6 sm:py-32">
+      <section id="projects" className="bg-bg-alt px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
             eyebrow="Projects"
@@ -300,7 +300,7 @@ export default function Home() {
           <Reveal>
             <ProjectCatalog />
           </Reveal>
-          <Reveal className="mt-12 text-center">
+          <Reveal className="mt-10 text-center sm:mt-12">
             <a href={site.links.github} target="_blank" rel="noreferrer" className="group text-body text-link hover:underline">
               See everything on GitHub
               <span className="ml-1 inline-block transition-transform group-hover:translate-x-1">›</span>
@@ -310,16 +310,16 @@ export default function Home() {
       </section>
 
       {/* Governance */}
-      <section id="governance" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
+      <section id="governance" className="bg-bg px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
             eyebrow="Governance"
             title="Decisions made close to the people they affect."
             lede="mawaDao combines the principles of a decentralised autonomous organisation with AI. Proposals, votes and outcomes are recorded on-chain, so every decision can be traced and audited."
           />
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="gallery sm:grid sm:gap-5 lg:grid-cols-3">
             {levels.map((l, i) => (
-              <Reveal key={l.level} delay={i * 110} className="rounded-[28px] bg-bg-alt p-8">
+              <Reveal key={l.level} delay={i * 110} className="rounded-[28px] bg-bg-alt p-7 sm:p-8">
                 <p className="text-footnote font-semibold tracking-[0.06em] text-accent-text uppercase">Level {i + 1}</p>
                 <h3 className="mt-2 font-display text-title">{l.level}</h3>
                 <p className="mt-3 text-callout text-fg-2">{l.who}</p>
@@ -339,21 +339,21 @@ export default function Home() {
       </section>
 
       {/* Responsible AI and child safety */}
-      <section id="safety" className="bg-bg-alt px-4 py-24 sm:px-6 sm:py-32">
+      <section id="safety" className="bg-bg-alt px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
             eyebrow="Responsible AI and child safety"
             title="Because it serves children, safety is not optional."
             lede="Every agent listed on mawaDao must meet these standards."
           />
-          <div className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3">
             {safety.map((s, i) => (
-              <Reveal key={s.title} delay={(i % 3) * 90}>
-                <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-surface text-cta">
+              <Reveal key={s.title} delay={(i % 3) * 90} className="grid grid-cols-[auto_1fr] gap-x-4 sm:block">
+                <span className="row-span-2 flex h-11 w-11 items-center justify-center rounded-[12px] bg-surface text-cta sm:h-12 sm:w-12 sm:rounded-[14px]">
                   <Icon name={s.icon} className="h-6 w-6" />
                 </span>
-                <h3 className="mt-5 text-headline">{s.title}</h3>
-                <p className="mt-2 text-body text-fg-2">{s.body}</p>
+                <h3 className="self-center text-headline sm:mt-5">{s.title}</h3>
+                <p className="mt-1 text-body text-fg-2 sm:mt-2">{s.body}</p>
               </Reveal>
             ))}
           </div>
@@ -361,14 +361,14 @@ export default function Home() {
       </section>
 
       {/* Who it is for */}
-      <section id="who" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
+      <section id="who" className="bg-bg px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead eyebrow="Who it is for" title="A place for everyone who wants to help." />
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2 sm:gap-5">
             {audiences.map((a, i) => (
-              <Reveal key={a.who} delay={(i % 2) * 90} className="flex gap-6 rounded-[28px] bg-bg-alt p-8">
+              <Reveal key={a.who} delay={(i % 2) * 90} className="flex gap-4 rounded-[24px] bg-bg-alt p-6 sm:gap-6 sm:rounded-[28px] sm:p-8">
                 <span className="text-ember">
-                  <Icon name={a.icon} className="h-8 w-8" />
+                  <Icon name={a.icon} className="h-7 w-7 sm:h-8 sm:w-8" />
                 </span>
                 <div>
                   <h3 className="text-headline">{a.who}</h3>
@@ -381,22 +381,29 @@ export default function Home() {
       </section>
 
       {/* Roadmap */}
-      <section id="roadmap" className="bg-bg-alt px-4 py-24 sm:px-6 sm:py-32">
+      <section id="roadmap" className="bg-bg-alt px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
             eyebrow="Roadmap"
             title="What we're planning."
             lede="mawaDao is in its early stage. Here is the path from first agents to verifiable impact."
           />
-          <ol className="relative grid gap-10 lg:grid-cols-5 lg:gap-6">
+          <ol className="relative grid gap-8 lg:grid-cols-5 lg:gap-6">
             <span
               aria-hidden="true"
               className="absolute top-7 right-[10%] left-[10%] hidden h-px bg-gradient-to-r from-gold via-ember to-violet lg:block"
             />
+
             {phases.map(([title, body], i) => (
               <Reveal as="li" key={title} delay={i * 100} className="relative lg:text-center">
+                {i < phases.length - 1 && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-12 -bottom-8 left-6 w-px bg-gradient-to-b from-gold to-ember lg:hidden"
+                  />
+                )}
                 <div className="flex items-center gap-4 lg:block">
-                  <span className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-callout font-semibold text-accent-text lg:mx-auto">
+                  <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-callout font-semibold text-accent-text lg:mx-auto lg:h-14 lg:w-14">
                     {i + 1}
                   </span>
                   <div className="lg:mt-6">
@@ -404,7 +411,7 @@ export default function Home() {
                     <h3 className="text-headline">{title}</h3>
                   </div>
                 </div>
-                <p className="mt-3 text-callout text-fg-2 lg:mx-auto lg:max-w-[13rem]">{body}</p>
+                <p className="mt-2 pl-16 text-callout text-fg-2 lg:mx-auto lg:mt-3 lg:max-w-[13rem] lg:pl-0">{body}</p>
               </Reveal>
             ))}
           </ol>
@@ -412,10 +419,10 @@ export default function Home() {
       </section>
 
       {/* Get involved */}
-      <section id="contact" className="bg-bg px-4 py-24 sm:px-6 sm:py-32">
-        <div className="mx-auto grid max-w-[1100px] gap-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+      <section id="contact" className="bg-bg px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
+        <div className="mx-auto grid max-w-[1100px] gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <Reveal>
-            <p className="text-body font-semibold text-fg-2">Get involved</p>
+            <p className="text-callout font-semibold text-fg-2 sm:text-body">Get involved</p>
             <h2 className="mt-2 font-display text-display">
               Help us reach
               <br />
@@ -433,13 +440,13 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <ul className="mt-10 space-y-3 text-body">
+            <ul className="mt-8 space-y-1 text-body sm:mt-10">
               {[
                 ["GitHub", site.links.github, "github.com/mawadao"],
                 ["Discord", site.links.discord, "Join the conversation"],
                 ["Email", `mailto:${site.email}`, site.email],
               ].map(([label, href, text]) => (
-                <li key={label} className="flex gap-4">
+                <li key={label} className="flex min-h-11 items-center gap-4">
                   <span className="w-20 shrink-0 text-fg-2">{label}</span>
                   <a href={href} className="text-link hover:underline" target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
                     {text}
@@ -448,7 +455,7 @@ export default function Home() {
               ))}
             </ul>
           </Reveal>
-          <Reveal delay={120} className="self-start rounded-[28px] bg-bg-alt p-6 sm:p-10">
+          <Reveal delay={120} className="-mx-4 self-start bg-bg-alt px-4 py-8 sm:mx-0 sm:rounded-[28px] sm:p-10">
             <ContactForm />
           </Reveal>
         </div>

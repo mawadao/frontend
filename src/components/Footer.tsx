@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "./Logo";
 import { AppearanceControl } from "./AppearanceControl";
@@ -38,10 +39,25 @@ const columns = [
   },
 ];
 
+function FooterLink({ href, className = "", children }: { href: string; className?: string; children: ReactNode }) {
+  const cls = `break-all hover:text-fg hover:underline ${className}`;
+  if (href.startsWith("/"))
+    return (
+      <Link href={href} className={cls}>
+        {children}
+      </Link>
+    );
+  return (
+    <a href={href} className={cls} rel="noreferrer" target={href.startsWith("http") ? "_blank" : undefined}>
+      {children}
+    </a>
+  );
+}
+
 export function Footer() {
   return (
     <footer className="border-t border-line bg-bg-alt text-caption text-fg-2">
-      <div className="mx-auto max-w-[1024px] px-4 pt-12 pb-8 sm:px-6">
+      <div className="mx-auto max-w-[1024px] px-4 pt-10 pb-8 sm:px-6 sm:pt-12">
         <p className="border-b border-line pb-4 leading-relaxed">
           mawaDao is a non-profit, community-owned marketplace for responsible AI agents, governed as a decentralised
           autonomous organisation. Built by the community, owned by the community, for the children who need it most.
@@ -49,22 +65,40 @@ export function Footer() {
           owners.
         </p>
 
-        <div className="grid grid-cols-2 gap-8 py-8 sm:grid-cols-4">
+        {/* Phones: each column is an accordion with full-height tap rows. */}
+        <div className="py-2 sm:hidden">
+          {columns.map((col) => (
+            <details key={col.title} className="group border-b border-line">
+              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between text-callout text-fg [&::-webkit-details-marker]:hidden">
+                {col.title}
+                <span
+                  aria-hidden="true"
+                  className="text-fg-2 transition-transform duration-300 ease-[var(--ease-spring)] group-open:rotate-180"
+                >
+                  ⌄
+                </span>
+              </summary>
+              <ul className="pb-3">
+                {col.links.map((l) => (
+                  <li key={l.label}>
+                    <FooterLink href={l.href} className="flex min-h-11 items-center text-callout">
+                      {l.label}
+                    </FooterLink>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))}
+        </div>
+
+        <div className="hidden grid-cols-4 gap-8 py-8 sm:grid">
           {columns.map((col) => (
             <div key={col.title}>
               <h3 className="mb-3 font-semibold text-fg">{col.title}</h3>
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    {l.href.startsWith("/") ? (
-                      <Link href={l.href} className="hover:text-fg hover:underline">
-                        {l.label}
-                      </Link>
-                    ) : (
-                      <a href={l.href} className="break-all hover:text-fg hover:underline" rel="noreferrer" target={l.href.startsWith("http") ? "_blank" : undefined}>
-                        {l.label}
-                      </a>
-                    )}
+                    <FooterLink href={l.href}>{l.label}</FooterLink>
                   </li>
                 ))}
               </ul>
@@ -72,7 +106,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-col gap-3 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 pt-5 sm:flex-row sm:items-center sm:justify-between sm:border-t sm:border-line">
           <Wordmark />
           <AppearanceControl className="self-start sm:self-auto" />
           <p>Copyright © {new Date().getFullYear()} mawaDao. Built in the open.</p>

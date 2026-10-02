@@ -78,32 +78,32 @@
    * looser leading and tracking near zero. Sizes are in rem so the layout
    * follows the reader's own font-size setting.
    */
-  --text-hero: clamp(3.25rem, 7.5vw, 6rem);
+  --text-hero: clamp(2.5rem, 10.5vw, 6rem);
   --text-hero--line-height: 1.02;
   --text-hero--letter-spacing: -0.035em;
   --text-hero--font-weight: 600;
 
-  --text-display: clamp(2.5rem, 5vw, 3.5rem);
+  --text-display: clamp(2rem, 7vw, 3.5rem);
   --text-display--line-height: 1.07;
   --text-display--letter-spacing: -0.028em;
   --text-display--font-weight: 600;
 
-  --text-statement: clamp(2rem, 4vw, 3rem);
+  --text-statement: clamp(1.5rem, 5.6vw, 3rem);
   --text-statement--line-height: 1.12;
   --text-statement--letter-spacing: -0.024em;
   --text-statement--font-weight: 600;
 
-  --text-figure: clamp(3rem, 5vw, 3.5rem);
+  --text-figure: clamp(2.5rem, 8vw, 3.5rem);
   --text-figure--line-height: 1;
   --text-figure--letter-spacing: -0.03em;
   --text-figure--font-weight: 600;
 
-  --text-title: 1.75rem;
+  --text-title: clamp(1.375rem, 4.5vw, 1.75rem);
   --text-title--line-height: 1.14;
   --text-title--letter-spacing: -0.02em;
   --text-title--font-weight: 600;
 
-  --text-headline: 1.5rem;
+  --text-headline: clamp(1.25rem, 4vw, 1.5rem);
   --text-headline--line-height: 1.17;
   --text-headline--letter-spacing: -0.018em;
   --text-headline--font-weight: 600;
@@ -112,7 +112,7 @@
   --text-subhead--line-height: 1.32;
   --text-subhead--letter-spacing: -0.012em;
 
-  --text-lede: clamp(1.1875rem, 2vw, 1.3125rem);
+  --text-lede: clamp(1.0625rem, 2vw, 1.3125rem);
   --text-lede--line-height: 1.4;
   --text-lede--letter-spacing: -0.012em;
 
@@ -196,6 +196,33 @@ label {
     scale: 0.97;
     transition-duration: 0.1s;
     transition-timing-function: ease-out;
+  }
+}
+
+/*
+ * Phone gallery: below 40rem a card grid becomes a horizontal, snap-scrolling
+ * row (the platform supplies momentum and rubber-banding). The next card peeks
+ * in so the row reads as swipeable. From 40rem up the element's own sm:grid
+ * classes take over, so don't put a bare `grid` or `gap-*` class on it.
+ */
+@utility gallery {
+  @media (width < 40rem) {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    scroll-padding-inline: 1rem;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    & > * {
+      flex: 0 0 min(82%, 22rem);
+      scroll-snap-align: start;
+    }
   }
 }
 
