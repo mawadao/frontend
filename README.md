@@ -35,13 +35,18 @@ npm run build && npm start
 
 Accounts use [Supabase Auth](https://supabase.com/docs/guides/auth) with Google and GitHub sign-in only.
 
-1. The provider returns to `/auth/callback`, which exchanges the code for a session cookie.
+1. The sign-in buttons post to `/auth/signin`, which sends the browser to Google or GitHub. The provider returns to `/auth/callback`, which exchanges the code for a session cookie.
 2. A member without a row in `profiles` goes to `/onboarding` to choose a username, country and role (student, developer, open-source contributor, educator, organisation or funder). They also agree to the code of conduct there.
 3. `src/proxy.ts` refreshes the session on each request. Pages check the user on the server with `getClaims()`.
 
 The database (the `profiles` table, its row-level security and the local Supabase stack) lives in [mawadao/supabase](https://github.com/mawadao/supabase). Its README covers local development and production setup.
 
-For local development, run the Supabase stack, then put the URL and publishable key that `npx supabase start` prints into `.env.local`. For Docker, pass the production values as build args.
+`SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` are read on the server at runtime, so one image works in any environment.
+
+- **Locally:** run the Supabase stack, then put the values `npx supabase start` prints into `.env.local`.
+- **On Cloud Run:** they come from the Secret Manager secrets `supabase-url` and `supabase-publishable-key`.
+
+Sign-in starts on the server (`POST /auth/signin`), so the browser never needs these settings.
 
 The contact form has no backend either. It opens the visitor's mail app with the message prefilled and addressed to `site.email`.
 

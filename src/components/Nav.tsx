@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Wordmark } from "./Logo";
 import { AppearanceControl } from "./AppearanceControl";
 import { subscribeAppearance } from "@/lib/appearance";
-import { createClient } from "@/lib/supabase/client";
+import { hasSessionCookie } from "@/lib/auth";
 import { nav } from "@/lib/site";
 
 const NAV_H = 52;
@@ -74,21 +74,15 @@ function useScrollState(enabled: boolean) {
   return state;
 }
 
-/** Whether someone is signed in, for the nav's account links. Display only: pages check on the server. */
+const noSubscribe = () => () => {};
+
+/**
+ * Whether someone is signed in, for the nav's account links. Display only:
+ * pages check on the server. Read on every render, and the nav re-renders on
+ * each navigation, which is how signing in or out always ends.
+ */
 function useSignedIn() {
-  const [signedIn, setSignedIn] = useState(false);
-  useEffect(() => {
-    let supabase;
-    try {
-      supabase = createClient();
-    } catch {
-      return; // Supabase isn't configured; keep the signed-out links.
-    }
-    supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => setSignedIn(!!session));
-    return () => data.subscription.unsubscribe();
-  }, []);
-  return signedIn;
+  return useSyncExternalStore(noSubscribe, hasSessionCookie, () => false);
 }
 
 function SignOut({ className, onClick }: { className: string; onClick?: () => void }) {

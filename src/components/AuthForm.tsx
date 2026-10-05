@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { LogoMark } from "./Logo";
-import { signInWith, type Provider } from "@/lib/auth";
+import type { Provider } from "@/lib/auth";
 
 type Mode = "login" | "signup";
 
@@ -33,23 +33,25 @@ const providers: { id: Provider; label: string; className: string; icon: ReactNo
   },
 ];
 
-const callbackError = "That sign-in didn't complete. Please try again.";
+const failures = {
+  callback: "That sign-in didn't complete. Please try again.",
+  signin: "We couldn't reach the sign-in service. Please try again.",
+};
 
-export function AuthForm({ mode, next = "/", failed = false }: { mode: Mode; next?: string; failed?: boolean }) {
+type Props = { mode: Mode; next?: string; error?: keyof typeof failures };
+
+export function AuthForm({ mode, next = "/", error }: Props) {
+  // The form leaves the page for the provider; keep the chosen button busy until it does.
   const [busy, setBusy] = useState<Provider | null>(null);
-  const [message, setMessage] = useState(failed ? callbackError : "");
-  const isSignup = mode === "signup";
+  const message = error ? failures[error] : "";
 
-  async function go(provider: Provider) {
-    setBusy(provider);
-    setMessage("");
-    const result = await signInWith(provider, next);
-    // On success the browser is already leaving for the provider; keep the button busy.
-    if (!result.ok) {
-      setMessage(result.message);
-      setBusy(null);
-    }
-  }
+  // Coming back from the provider with the Back button restores this page from cache; un-stick the button.
+  useEffect(() => {
+    const onShow = (e: PageTransitionEvent) => e.persisted && setBusy(null);
+    window.addEventListener("pageshow", onShow);
+    return () => window.removeEventListener("pageshow", onShow);
+  }, []);
+  const isSignup = mode === "signup";
 
   return (
     <div className="w-full max-w-[420px]">
@@ -63,20 +65,28 @@ export function AuthForm({ mode, next = "/", failed = false }: { mode: Mode; nex
         </p>
       </div>
 
-      <div className="mt-8 grid gap-3">
+      <form
+        action="/auth/signin"
+        method="post"
+        onSubmit={(e) => setBusy(((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement).value as Provider)}
+        className="mt-8 grid gap-3"
+      >
+        <input type="hidden" name="next" value={next} />
+        <input type="hidden" name="mode" value={mode} />
         {providers.map((p) => (
           <button
             key={p.id}
-            type="button"
+            type="submit"
+            name="provider"
+            value={p.id}
             disabled={!!busy}
-            onClick={() => go(p.id)}
             className={`press flex h-12 items-center justify-center gap-2.5 rounded-xl text-body font-medium disabled:opacity-60 ${p.className}`}
           >
             {p.icon}
             {busy === p.id ? "Connecting…" : `Continue with ${p.label}`}
           </button>
         ))}
-      </div>
+      </form>
 
       {isSignup && (
         <p className="mt-5 px-1 text-center text-footnote text-fg-2">

@@ -1,9 +1,13 @@
-/** Supabase project settings. Both are public: the publishable key only grants what row-level security allows. */
+/**
+ * Supabase project settings, read on the server at runtime so one image can
+ * serve any environment. On Cloud Run they come from Secret Manager; locally
+ * from .env.local.
+ */
 export function supabaseEnv() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) {
-    throw new Error("Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (see .env.example).");
+    throw new Error("Set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY (see .env.example).");
   }
   return { url, key };
 }
