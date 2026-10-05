@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Wordmark } from "./Logo";
 import { AppearanceControl } from "./AppearanceControl";
 import { subscribeAppearance } from "@/lib/appearance";
+import { createClient } from "@/lib/supabase/client";
 import { nav } from "@/lib/site";
 
 const NAV_H = 52;
@@ -73,10 +74,38 @@ function useScrollState(enabled: boolean) {
   return state;
 }
 
+/** Whether someone is signed in, for the nav's account links. Display only: pages check on the server. */
+function useSignedIn() {
+  const [signedIn, setSignedIn] = useState(false);
+  useEffect(() => {
+    let supabase;
+    try {
+      supabase = createClient();
+    } catch {
+      return; // Supabase isn't configured; keep the signed-out links.
+    }
+    supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => setSignedIn(!!session));
+    return () => data.subscription.unsubscribe();
+  }, []);
+  return signedIn;
+}
+
+function SignOut({ className, onClick }: { className: string; onClick?: () => void }) {
+  return (
+    <form action="/auth/signout" method="post" className="contents">
+      <button type="submit" onClick={onClick} className={className}>
+        Sign out
+      </button>
+    </form>
+  );
+}
+
 export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const { tone, scrolled, active } = useScrollState(pathname === "/");
+  const signedIn = useSignedIn();
   const dark = tone === "dark" && !open;
 
   useEffect(() => {
@@ -133,19 +162,25 @@ export function Nav() {
 
           <div className="hidden items-center gap-4 md:flex">
             <AppearanceControl compact className={dark ? "text-white" : "text-fg"} />
-            <Link
-              href="/login"
-              aria-current={pathname === "/login" ? "page" : undefined}
-              className={`text-footnote transition-colors duration-200 ${pathname === "/login" ? (dark ? "text-white" : "text-fg") : linkTone("")}`}
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/signup"
-              className="press rounded-full bg-cta px-3.5 py-1.5 text-footnote font-medium text-white hover:bg-cta-hover"
-            >
-              Join mawaDao
-            </Link>
+            {signedIn ? (
+              <SignOut className={`text-footnote transition-colors duration-200 ${linkTone("")}`} />
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  aria-current={pathname === "/login" ? "page" : undefined}
+                  className={`text-footnote transition-colors duration-200 ${pathname === "/login" ? (dark ? "text-white" : "text-fg") : linkTone("")}`}
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/signup"
+                  className="press rounded-full bg-cta px-3.5 py-1.5 text-footnote font-medium text-white hover:bg-cta-hover"
+                >
+                  Join mawaDao
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -203,12 +238,18 @@ export function Nav() {
           className={`mt-8 flex gap-3 px-8 transition-opacity duration-500 ${open ? "opacity-100" : "opacity-0"}`}
           style={{ transitionDelay: open ? "260ms" : "0ms" }}
         >
-          <Link href="/signup" onClick={() => setOpen(false)} className="press rounded-full bg-cta px-5 py-2.5 text-callout font-medium text-white">
-            Join mawaDao
-          </Link>
-          <Link href="/login" onClick={() => setOpen(false)} className="press rounded-full border border-line px-5 py-2.5 text-callout font-medium">
-            Sign in
-          </Link>
+          {signedIn ? (
+            <SignOut onClick={() => setOpen(false)} className="press rounded-full border border-line px-5 py-2.5 text-callout font-medium" />
+          ) : (
+            <>
+              <Link href="/signup" onClick={() => setOpen(false)} className="press rounded-full bg-cta px-5 py-2.5 text-callout font-medium text-white">
+                Join mawaDao
+              </Link>
+              <Link href="/login" onClick={() => setOpen(false)} className="press rounded-full border border-line px-5 py-2.5 text-callout font-medium">
+                Sign in
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

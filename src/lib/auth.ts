@@ -1,31 +1,17 @@
 /**
- * Auth client. No provider is connected yet, so the login and signup UI is
- * real but every call resolves to `{ ok: false }` with a friendly notice.
- * To go live, replace these bodies with a provider (Supabase, Auth.js, a
- * wallet-based sign-in, …). The pages only depend on this module's contract.
+ * Sign-in with Supabase Auth. Members sign in with Google or GitHub only; the
+ * provider returns to /auth/callback, which sends first-timers to /onboarding
+ * to choose a username and country.
  */
+import { createClient } from "@/lib/supabase/client";
+
+export type Provider = "google" | "github";
+
 export type AuthResult = { ok: true } | { ok: false; message: string };
 
-export type Provider = "github" | "wallet";
-
-const notConnected: AuthResult = {
-  ok: false,
-  message: "Accounts open soon. Nothing was submitted. In the meantime, join us on GitHub at github.com/mawadao.",
-};
-
-const pause = () => new Promise((r) => setTimeout(r, 700));
-
-export async function signIn(_input: { email: string; password: string }): Promise<AuthResult> {
-  await pause();
-  return notConnected;
-}
-
-export async function signUp(_input: { name: string; role: string; email: string; password: string }): Promise<AuthResult> {
-  await pause();
-  return notConnected;
-}
-
-export async function signInWith(_provider: Provider): Promise<AuthResult> {
-  await pause();
-  return notConnected;
+/** Leaves the page for the provider's consent screen. Resolves only if that couldn't start. */
+export async function signInWith(provider: Provider, next = "/"): Promise<AuthResult> {
+  const redirectTo = `${location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+  const { error } = await createClient().auth.signInWithOAuth({ provider, options: { redirectTo } });
+  return error ? { ok: false, message: "We couldn't reach the sign-in service. Please try again." } : { ok: true };
 }

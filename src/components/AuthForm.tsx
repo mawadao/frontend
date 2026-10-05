@@ -1,80 +1,54 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type FocusEvent, type FormEvent } from "react";
-import { Field } from "./Field";
+import { useState, type ReactNode } from "react";
 import { LogoMark } from "./Logo";
-import { signIn, signInWith, signUp, type AuthResult, type Provider } from "@/lib/auth";
+import { signInWith, type Provider } from "@/lib/auth";
 
 type Mode = "login" | "signup";
-type Errors = Partial<Record<"name" | "email" | "password" | "confirm" | "terms", string>>;
 
-const roles = [
-  "An AI developer",
-  "A school, orphanage or educator",
-  "A small business or community organisation",
-  "A funder, NGO or partner",
+const providers: { id: Provider; label: string; className: string; icon: ReactNode }[] = [
+  {
+    id: "google",
+    label: "Google",
+    className: "border border-line bg-field hover:bg-bg-alt",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+        <path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.46a5.52 5.52 0 0 1-2.4 3.62v3h3.88c2.27-2.09 3.58-5.17 3.58-8.81z" />
+        <path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.94-2.92l-3.88-3c-1.07.72-2.45 1.15-4.06 1.15-3.12 0-5.77-2.11-6.71-4.95H1.28v3.1A12 12 0 0 0 12 24z" />
+        <path fill="#FBBC05" d="M5.29 14.28A7.2 7.2 0 0 1 4.91 12c0-.79.14-1.56.38-2.28v-3.1H1.28a12 12 0 0 0 0 10.76l4.01-3.1z" />
+        <path fill="#EA4335" d="M12 4.77c1.76 0 3.34.61 4.59 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.28 6.62l4.01 3.1C6.23 6.88 8.88 4.77 12 4.77z" />
+      </svg>
+    ),
+  },
+  {
+    id: "github",
+    label: "GitHub",
+    className: "bg-fg text-bg hover:opacity-90",
+    icon: (
+      <svg viewBox="0 0 16 16" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+      </svg>
+    ),
+  },
 ];
 
-const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const callbackError = "That sign-in didn't complete. Please try again.";
 
-function validate(mode: Mode, d: Record<string, string>): Errors {
-  const e: Errors = {};
-  if (mode === "signup" && !d.name?.trim()) e.name = "Enter your name.";
-  if (!emailOk(d.email ?? "")) e.email = "Enter a valid email address.";
-  if (mode === "login" && !d.password) e.password = "Enter your password.";
-  if (mode === "signup") {
-    if ((d.password ?? "").length < 8) e.password = "Use at least 8 characters.";
-    if (d.confirm !== d.password) e.confirm = "Passwords don't match.";
-    if (d.terms !== "on") e.terms = "Please agree to continue.";
-  }
-  return e;
-}
-
-export function AuthForm({ mode }: { mode: Mode }) {
-  const [errors, setErrors] = useState<Errors>({});
-  const [touched, setTouched] = useState<Set<string>>(new Set());
-  const [busy, setBusy] = useState<false | "form" | Provider>(false);
-  const [result, setResult] = useState<AuthResult | null>(null);
+export function AuthForm({ mode, next = "/", failed = false }: { mode: Mode; next?: string; failed?: boolean }) {
+  const [busy, setBusy] = useState<Provider | null>(null);
+  const [message, setMessage] = useState(failed ? callbackError : "");
   const isSignup = mode === "signup";
 
-  async function run(kind: "form" | Provider, fn: () => Promise<AuthResult>) {
-    setBusy(kind);
-    setResult(null);
-    setResult(await fn());
-    setBusy(false);
-  }
-
-  // Validate inline: a field is checked when the reader leaves it, and its
-  // error clears the moment the input becomes valid.
-  function recheck(form: HTMLFormElement, seen: Set<string>) {
-    const all = validate(mode, Object.fromEntries(new FormData(form)) as Record<string, string>);
-    setErrors(Object.fromEntries(Object.entries(all).filter(([k]) => seen.has(k))) as Errors);
-  }
-
-  function onBlur(ev: FocusEvent<HTMLFormElement>) {
-    const { name, value } = ev.target as EventTarget as HTMLInputElement;
-    if (!name || !value) return;
-    const seen = new Set(touched).add(name);
-    setTouched(seen);
-    recheck(ev.currentTarget, seen);
-  }
-
-  function onChange(ev: FormEvent<HTMLFormElement>) {
-    const { name } = ev.target as EventTarget as HTMLInputElement;
-    if (touched.has(name) || name === "terms") recheck(ev.currentTarget, name === "terms" ? new Set(touched).add(name) : touched);
-  }
-
-  function onSubmit(ev: FormEvent<HTMLFormElement>) {
-    ev.preventDefault();
-    const d = Object.fromEntries(new FormData(ev.currentTarget)) as Record<string, string>;
-    const e = validate(mode, d);
-    setErrors(e);
-    setTouched(new Set(Object.keys(d)));
-    if (Object.keys(e).length) return;
-    run("form", () =>
-      isSignup ? signUp({ name: d.name, role: d.role, email: d.email, password: d.password }) : signIn({ email: d.email, password: d.password }),
-    );
+  async function go(provider: Provider) {
+    setBusy(provider);
+    setMessage("");
+    const result = await signInWith(provider, next);
+    // On success the browser is already leaving for the provider; keep the button busy.
+    if (!result.ok) {
+      setMessage(result.message);
+      setBusy(null);
+    }
   }
 
   return (
@@ -90,107 +64,28 @@ export function AuthForm({ mode }: { mode: Mode }) {
       </div>
 
       <div className="mt-8 grid gap-3">
-        <button
-          type="button"
-          disabled={!!busy}
-          onClick={() => run("github", () => signInWith("github"))}
-          className="press flex h-12 items-center justify-center gap-2.5 rounded-xl bg-fg text-body font-medium text-bg hover:opacity-90 disabled:opacity-60"
-        >
-          <svg viewBox="0 0 16 16" className="h-5 w-5" fill="currentColor" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
-          </svg>
-          {busy === "github" ? "Connecting…" : "Continue with GitHub"}
-        </button>
-        <button
-          type="button"
-          disabled={!!busy}
-          onClick={() => run("wallet", () => signInWith("wallet"))}
-          className="press flex h-12 items-center justify-center gap-2.5 rounded-xl border border-line bg-field text-body font-medium hover:bg-bg-alt disabled:opacity-60"
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <rect x="3" y="6" width="18" height="13" rx="3" />
-            <path d="M16 12.5h2M3 9.5h13a2 2 0 0 0 2-2V6" strokeLinecap="round" />
-          </svg>
-          {busy === "wallet" ? "Connecting…" : "Connect a wallet"}
-        </button>
+        {providers.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            disabled={!!busy}
+            onClick={() => go(p.id)}
+            className={`press flex h-12 items-center justify-center gap-2.5 rounded-xl text-body font-medium disabled:opacity-60 ${p.className}`}
+          >
+            {p.icon}
+            {busy === p.id ? "Connecting…" : `Continue with ${p.label}`}
+          </button>
+        ))}
       </div>
 
-      <div className="my-6 flex items-center gap-4 text-footnote text-fg-2">
-        <span className="h-px flex-1 bg-line" />
-        or with email
-        <span className="h-px flex-1 bg-line" />
-      </div>
-
-      <form noValidate onSubmit={onSubmit} onBlur={onBlur} onChange={onChange} className="grid gap-3">
-        {isSignup && <Field label="Full name" name="name" autoComplete="name" error={errors.name} />}
-        {isSignup && (
-          <label className="relative block">
-            <span className="pointer-events-none absolute top-2.5 left-4 text-caption text-fg-2">I&apos;m joining as</span>
-            <select
-              name="role"
-              defaultValue={roles[0]}
-              className="h-14 w-full appearance-none rounded-xl border border-line bg-field px-4 pt-5 text-body outline-none transition-[box-shadow,border-color] duration-200 focus:border-cta focus:ring-4 focus:ring-cta/20"
-            >
-              {roles.map((r) => (
-                <option key={r}>{r}</option>
-              ))}
-            </select>
-            <span className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-fg-2" aria-hidden="true">
-              ⌄
-            </span>
-          </label>
-        )}
-        <Field label="Email" name="email" type="email" autoComplete="email" error={errors.email} />
-        <Field
-          label="Password"
-          name="password"
-          type="password"
-          autoComplete={isSignup ? "new-password" : "current-password"}
-          error={errors.password}
-        />
-        {isSignup && (
-          <Field label="Confirm password" name="confirm" type="password" autoComplete="new-password" error={errors.confirm} />
-        )}
-
-        {isSignup ? (
-          <div>
-            <label className="flex items-start gap-3 px-1 pt-1 text-callout text-fg-2">
-              <input type="checkbox" name="terms" className="mt-0.5 h-4 w-4 accent-[var(--cta)]" />
-              <span>I agree to take part in good faith, follow the code of conduct and put children&apos;s safety first.</span>
-            </label>
-            {errors.terms && <p role="alert" className="mt-1.5 px-1 text-footnote text-[#e30000] dark:text-[#ff6961]">{errors.terms}</p>}
-          </div>
-        ) : (
-          <div className="flex justify-end px-1">
-            <button
-              type="button"
-              className="text-callout text-link hover:underline"
-              onClick={() => setResult({ ok: false, message: "Password reset will be available once accounts open." })}
-            >
-              Forgot password?
-            </button>
-          </div>
-        )}
-
-        <button
-          type="submit"
-          disabled={!!busy}
-          className="press mt-2 h-12 rounded-xl bg-cta text-body font-medium text-white hover:bg-cta-hover disabled:opacity-60"
-        >
-          {busy === "form" ? (isSignup ? "Creating account…" : "Signing in…") : isSignup ? "Create account" : "Sign in"}
-        </button>
-      </form>
+      {isSignup && (
+        <p className="mt-5 px-1 text-center text-footnote text-fg-2">
+          Next, you&apos;ll choose a username, your country and how you&apos;re joining.
+        </p>
+      )}
 
       <div aria-live="polite">
-        {result && (
-          <p
-            className={`animate-fade mt-5 rounded-xl px-4 py-3 text-callout ${
-              result.ok ? "bg-[#34c759]/12 text-[#248a3d]" : "bg-[#f7b733]/15 text-fg"
-            }`}
-          >
-            {result.ok ? "You're in. Welcome to mawaDao." : result.message}
-          </p>
-        )}
+        {message && <p className="animate-fade mt-5 rounded-xl bg-[#f7b733]/15 px-4 py-3 text-callout text-fg">{message}</p>}
       </div>
 
       <p className="mt-8 text-center text-callout text-fg-2">
