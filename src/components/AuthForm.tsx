@@ -68,7 +68,12 @@ export function AuthForm({ mode, next = "/", error }: Props) {
       <form
         action="/auth/signin"
         method="post"
-        onSubmit={(e) => setBusy(((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement).value as Provider)}
+        onSubmit={(e) => {
+          // Block a second click instead of disabling the buttons: a disabled submitter
+          // is left out of the form data, so the server would never see which provider.
+          if (busy) return e.preventDefault();
+          setBusy(((e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement).value as Provider);
+        }}
         className="mt-8 grid gap-3"
       >
         <input type="hidden" name="next" value={next} />
@@ -79,8 +84,8 @@ export function AuthForm({ mode, next = "/", error }: Props) {
             type="submit"
             name="provider"
             value={p.id}
-            disabled={!!busy}
-            className={`press flex h-12 items-center justify-center gap-2.5 rounded-xl text-body font-medium disabled:opacity-60 ${p.className}`}
+            aria-disabled={!!busy}
+            className={`press flex h-12 items-center justify-center gap-2.5 rounded-xl text-body font-medium aria-disabled:opacity-60 ${p.className}`}
           >
             {p.icon}
             {busy === p.id ? "Connecting…" : `Continue with ${p.label}`}
