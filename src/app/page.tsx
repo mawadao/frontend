@@ -5,7 +5,7 @@ import { LogoMark } from "@/components/Logo";
 import { Icon, type IconName } from "@/components/Icon";
 import { ProjectCatalog } from "@/components/ProjectCatalog";
 import { ContactForm } from "@/components/ContactForm";
-import { site } from "@/lib/site";
+import { hasEmail, site } from "@/lib/site";
 
 function SectionHead({ eyebrow, title, lede }: { eyebrow: string; title: ReactNode; lede?: string }) {
   return (
@@ -18,19 +18,18 @@ function SectionHead({ eyebrow, title, lede }: { eyebrow: string; title: ReactNo
 }
 
 const steps = [
-  ["Developers build", "AI agents for education, learning support and small-business needs, and submit them to the open marketplace."],
-  ["Agents are reviewed", "against our responsible AI and child-safety standards before they are made available."],
-  ["Schools and educators use them", "free of charge through the marketplace, alongside small businesses."],
-  ["Impact is recorded", "on a blockchain ledger, so contributions and outcomes are transparent and verifiable."],
-  ["Rewards return to the community", "Developers, reviewers, educators and local communities are recognised for the value they create."],
-  ["The community governs", "through a decentralised autonomous organisation operating at local, country and global level."],
+  ["Create and list, free", "Anyone can build an AI agent and list it on the mawa Marketplace. There is no charge to list, create or publish anything, ever."],
+  ["Propose a project", "Any community member can propose a new product: an AI science tutor, a research agent for content creators, a clinical-skills trainer."],
+  ["The DAO votes", "The community votes on proposals, and approved projects get the backing of the community."],
+  ["Build together", "Developers, educators, designers, translators and subject experts contribute. Every contribution is recorded transparently on the blockchain."],
+  ["Share the rewards", "When a product is monetised, 75% of the revenue goes to the contributors who built it, and 25% funds education for deserving children."],
 ];
 
 const features: { icon: IconName; title: string; body: string; className?: string; feature?: boolean }[] = [
   {
     icon: "store",
     title: "Open agent marketplace",
-    body: "Developers list and share agents for free. No listing fees and no platform commission on educational use.",
+    body: "Developers list and share agents for free. No listing fees, no creation fees and no commissions.",
     className: "lg:col-span-2",
     feature: true,
   },
@@ -41,8 +40,8 @@ const features: { icon: IconName; title: string; body: string; className?: strin
   },
   {
     icon: "gift",
-    title: "Community rewards",
-    body: "Building agents, reviewing code, translating content, reporting safety issues and supporting schools all earn recognition and rewards, paid out transparently by smart contract.",
+    title: "75% to the contributors",
+    body: "When a product is monetised, revenue is split automatically: 75% to the community who built it, enforced in code by the blockchain, not left to promises.",
   },
   {
     icon: "people",
@@ -51,8 +50,8 @@ const features: { icon: IconName; title: string; body: string; className?: strin
   },
   {
     icon: "layers",
-    title: "Multi-level governance",
-    body: "Decisions are made as close as possible to the people they affect, from a single school up to the whole community.",
+    title: "DAO governance",
+    body: "Any member can propose a project. The community votes on it through the DAO, at local, country and community level.",
   },
   {
     icon: "signal",
@@ -83,33 +82,28 @@ const levels = [
 const safety: { icon: IconName; title: string; body: string }[] = [
   {
     icon: "shield",
-    title: "Safeguarding first",
-    body: "Agents used with children must pass child-safety review, collect no unnecessary personal data, and filter content for the age group.",
+    title: "Safeguarding by design",
+    body: "Agents used with children must meet mawaDao's safeguarding and content standards before listing.",
   },
   {
     icon: "lock",
-    title: "Privacy by design",
-    body: "No personal data about children is ever stored on a public blockchain. On-chain records cover agents, contributions and aggregated impact only.",
+    title: "Privacy",
+    body: "Learners' data, especially children's, is minimised, protected and never sold.",
   },
   {
     icon: "eye",
-    title: "Transparency",
-    body: "See who built an agent, what it is designed to do, its known limitations and its full review history.",
+    title: "Accuracy",
+    body: "Educational content, especially in subjects like medicine, is reviewed by qualified educators or experts.",
   },
   {
     icon: "scale",
-    title: "Fairness and inclusion",
-    body: "Agents are tested for bias and for suitability across languages, cultures and learning needs.",
+    title: "Responsible content",
+    body: "Agents used for content creation must support accurate, informative and respectful publishing.",
   },
   {
     icon: "hand",
-    title: "Human oversight",
-    body: "Agents support teachers and carers; they never replace them. Educators stay in control of how agents are used.",
-  },
-  {
-    icon: "flag",
-    title: "Accountability",
-    body: "Anyone can report a safety concern. Reports are reviewed by the community, and unsafe agents can be suspended immediately.",
+    title: "Inclusion",
+    body: "Agents should work across languages, abilities, low-cost devices and low-bandwidth connections.",
   },
 ];
 
@@ -117,39 +111,44 @@ const audiences: { icon: IconName; who: string; body: string }[] = [
   {
     icon: "code",
     who: "AI developers",
-    body: "Make a real difference with your work, build a public portfolio, earn rewards and help own the platform you contribute to.",
+    body: "List agents for free on the mawa Marketplace, contribute to community projects, and earn from what you help build.",
+  },
+  {
+    icon: "signal",
+    who: "Content creators",
+    body: "Use mawa agents to research freely, create informative and educational content, and publish it across social media.",
   },
   {
     icon: "school",
-    who: "Schools, orphanages and educators",
-    body: "Free, trustworthy AI tools for tutoring, literacy, numeracy, language learning and teaching support.",
+    who: "Schools, colleges and universities",
+    body: "Access AI agents for teaching, tutoring, assessment and learner support.",
   },
   {
-    icon: "briefcase",
-    who: "Small businesses and community organisations",
-    body: "Practical AI agents without the cost of commercial platforms.",
+    icon: "people",
+    who: "Teachers and student teachers",
+    body: "Use agents to plan lessons, create materials and support every learner in the classroom.",
   },
   {
-    icon: "heart",
-    who: "Funders, NGOs and partners",
-    body: "Transparent, verifiable evidence of where support goes and what impact it has.",
+    icon: "layers",
+    who: "Students",
+    body: "Learn with AI tutors and study tools in any subject, at your own pace.",
   },
 ];
 
 const phases = [
-  ["Foundation", "Core marketplace, agent manifest standard, responsible AI and safeguarding policies, and the first education agents."],
-  ["Pilot", "Pilots with a small number of schools and orphanages. Contributor registry and reward mechanism live on testnet."],
-  ["Governance", "DAO launch with local and country chapters. Community voting on standards and reward rules."],
-  ["Scale", "Multi-language support, offline and low-bandwidth deployment, and expansion to small businesses and new regions."],
-  ["Impact", "Public, verifiable impact reporting for communities, funders and partners."],
+  ["Foundation", "Open-source repository, contributor guidelines and safeguarding standards."],
+  ["mawa Marketplace", "Free agent listing and discovery for educators, students and content creators."],
+  ["DAO governance", "Project proposals and community voting at local, country and community level."],
+  ["Mawa School for AI", "AI education for deserving children, building on mawa's two existing schools."],
+  ["Community token", "Launch of the mawaDao token, with 75% distributed to developers, contributors and the wider community."],
 ];
 
 const ways = [
-  "Build or improve AI agents for education and small businesses",
+  "Build or improve AI agents for education and content creation, or propose your own project",
+  "Use mawa agents to research and create, and share what works",
+  "Tell us what your learners need and help review agents",
   "Review agents for safety, quality and bias",
   "Translate agents and learning content into local languages",
-  "Improve documentation and guides",
-  "Connect schools, orphanages and communities to the platform",
   "Take part in governance and help shape policy",
 ];
 
@@ -170,12 +169,12 @@ export default function Home() {
           </Reveal>
           <Reveal delay={100}>
             <p className="mt-6 text-caption font-medium tracking-[0.16em] whitespace-nowrap text-fg-2 uppercase max-[360px]:text-[0.6875rem] max-[360px]:tracking-[0.08em] sm:mt-8 sm:text-footnote sm:tracking-[0.25em]">
-              Non-profit&nbsp;&nbsp;·&nbsp;&nbsp;Community-owned&nbsp;&nbsp;·&nbsp;&nbsp;DAO
+              Agentic&nbsp;AI&nbsp;&nbsp;·&nbsp;&nbsp;Community-owned&nbsp;&nbsp;·&nbsp;&nbsp;DAO
             </p>
           </Reveal>
           <Reveal delay={200}>
             <h1 className="mt-5 font-display text-hero">
-              AI that teaches.
+              Agentic AI.
               <br />
               <span className="text-brand">Owned by all of us.</span>
             </h1>
@@ -207,19 +206,19 @@ export default function Home() {
       <section id="why" className="bg-bg px-4 py-20 sm:px-6 sm:py-28 lg:py-36">
         <Reveal className="mx-auto max-w-[900px] text-center">
           <p className="font-display text-statement text-balance">
-            Millions of children have no access to good teachers, tutoring or learning resources.{" "}
+            Open-source developers give their expertise away for nothing, and commercial marketplaces can take up to 30% of what creators earn.{" "}
             <span className="text-fg-2">
-              Developers everywhere are building AI agents that could close that gap. mawaDao connects the two.
+              Meanwhile, quality education is still out of reach for millions of children. mawaDao turns this around.
             </span>
           </p>
         </Reveal>
 
         <dl className="mx-auto mt-12 grid max-w-[900px] grid-cols-2 gap-x-4 gap-y-8 text-center sm:mt-20 sm:grid-cols-4 sm:gap-y-10">
           {[
-            ["Free", "for schools and educators"],
-            ["0%", "commission on educational use"],
-            ["3", "levels of governance"],
-            ["100%", "open source, Apache 2.0"],
+            ["Free", "to create, list and use"],
+            ["75%", "to the contributors who built it"],
+            ["25%", "funds children's education"],
+            ["2", "mawa schools already running"],
           ].map(([value, label], i) => (
             <Reveal key={label} delay={i * 80}>
               <dt className="sr-only">{label}</dt>
@@ -235,6 +234,15 @@ export default function Home() {
           <p className="text-callout font-semibold text-gold sm:text-body">Our mission</p>
           <p className="mt-3 font-display text-subhead font-semibold text-balance sm:mt-4 sm:text-title">{site.mission}</p>
         </Reveal>
+
+        <Reveal delay={80} className="mx-auto mt-10 max-w-[700px] text-center sm:mt-14">
+          <p className="text-body text-fg-2">
+            <span className="font-semibold text-fg">mawa already runs two schools</span> for deserving children, and
+            mawaDao extends that mission into the age of AI. We&rsquo;re now setting up{" "}
+            <span className="font-semibold text-fg">Mawa School for AI</span>, to give them — and orphans and street
+            children — the skills to learn with, use and build AI.
+          </p>
+        </Reveal>
       </section>
 
       {/* How it works */}
@@ -246,10 +254,10 @@ export default function Home() {
               <>
                 Built by developers.
                 <br />
-                <span className="text-brand">Free for every classroom.</span>
+                <span className="text-brand">Free for every learner.</span>
               </>
             }
-            lede="Developers build and list agents. Schools, orphanages, educators and small businesses use them free of charge. The value flows back to the community that built it."
+            lede="Developers build and list agents, free. Educators, students and content creators use them to teach, learn, research and inform. When a product earns money, the community shares in it."
           />
           <ol className="gallery sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {steps.map(([title, body], i) => (
@@ -342,8 +350,8 @@ export default function Home() {
       <section id="safety" className="bg-bg-alt px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead
-            eyebrow="Responsible AI and child safety"
-            title="Because it serves children, safety is not optional."
+            eyebrow="Responsible AI and safeguarding"
+            title="Because it serves children and young people, safety comes first."
             lede="Every agent listed on mawaDao must meet these standards."
           />
           <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3">
@@ -444,13 +452,17 @@ export default function Home() {
               {[
                 ["GitHub", site.links.github, "github.com/mawadao"],
                 ["Discord", site.links.discord, "Join the conversation"],
-                ["Email", `mailto:${site.email}`, site.email],
+                ["Email", hasEmail ? `mailto:${site.email}` : null, site.email],
               ].map(([label, href, text]) => (
                 <li key={label} className="flex min-h-11 items-center gap-4">
                   <span className="w-20 shrink-0 text-fg-2">{label}</span>
-                  <a href={href} className="text-link hover:underline" target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
-                    {text}
-                  </a>
+                  {href ? (
+                    <a href={href} className="text-link hover:underline" target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+                      {text}
+                    </a>
+                  ) : (
+                    <span className="text-fg-2">{text}</span>
+                  )}
                 </li>
               ))}
             </ul>

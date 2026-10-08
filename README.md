@@ -1,8 +1,8 @@
 # mawaDao — frontend
 
-The website for [mawaDao](https://mawadao.com): **a non-profit, community-owned marketplace for responsible AI agents, built to bring quality education to underserved children and orphans.**
+The website for [mawaDao](https://mawadao.com): **a community-owned ecosystem of agentic AI and blockchain technologies for education.**
 
-Developers build and list AI agents. Schools, orphanages, community educators and small businesses use them free of charge. The value created flows back to the community that built it, and the people affected by the platform decide how it is run, through a decentralised autonomous organisation (DAO).
+Developers build and list AI agents on the mawa Marketplace, free. Educators, students and content creators use them to teach, learn, research and inform. There are no listing fees, no creation fees and no commissions; when a product earns money, 75% goes to the community who built it and 25% funds education for deserving children, orphans and street children, through a decentralised autonomous organisation (DAO).
 
 Built with Next.js 16 (App Router), React 19, TypeScript and Tailwind CSS v4. The design follows Apple's principles of clarity, deference and depth: system typography, generous whitespace, neutral surfaces, a single accent, frosted navigation, scroll reveals, and automatic light and dark mode.
 
@@ -11,6 +11,7 @@ Built with Next.js 16 (App Router), React 19, TypeScript and Tailwind CSS v4. Th
 | Route     | What it is |
 | --------- | ---------- |
 | `/`       | Landing: mission, how it works, key features, **project catalog**, governance, child safety, who it is for, roadmap, get involved |
+| `/marketplace` | AI agents and tools listed by the community, merged from the registry's `tools/` and `agents/` into one catalog |
 | `/login`  | Sign in with Google or GitHub |
 | `/signup` | Create an account with Google or GitHub |
 | `/onboarding` | First sign-in only: choose a username, country and role |
@@ -27,6 +28,7 @@ npm run build && npm start
 ## Editing content
 
 - **Projects catalog:** `src/lib/projects.ts`
+- **Marketplace:** `src/app/marketplace/page.tsx` + `src/components/MarketplaceCatalog.tsx`, reading the registry's public `index.json` via `src/lib/registry.ts` (revalidated hourly, no database)
 - **Site name, links, contact email:** `src/lib/site.ts`
 - **Sections, roadmap and copy:** `src/app/page.tsx`
 - **Design tokens (colors, fonts, motion):** `src/app/globals.css`

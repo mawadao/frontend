@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Field } from "./Field";
-import { site } from "@/lib/site";
+import { hasEmail, site } from "@/lib/site";
 
 const topics = [
   "Become a founding contributor",
@@ -21,7 +21,8 @@ export function ContactForm() {
     const data = new FormData(e.currentTarget);
     const subject = `[${data.get("topic")}] from ${data.get("name")}`;
     const body = `${data.get("message")}\n\n— ${data.get("name")} (${data.get("email")})`;
-    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const to = hasEmail ? site.email : "";
+    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   }
 
@@ -62,7 +63,13 @@ export function ContactForm() {
           Send message
         </button>
         <p className="text-callout text-fg-2" aria-live="polite">
-          {sent ? "Your mail app should open with the message ready to send." : <>Or write to <a className="text-link hover:underline" href={`mailto:${site.email}`}>{site.email}</a></>}
+          {sent
+            ? hasEmail
+              ? "Your mail app should open with the message ready to send."
+              : "Your mail app should open with the message ready to send — add a recipient, since our address isn't public yet."
+            : hasEmail
+              ? <>Or write to <a className="text-link hover:underline" href={`mailto:${site.email}`}>{site.email}</a></>
+              : `Email: ${site.email}`}
         </p>
       </div>
     </form>

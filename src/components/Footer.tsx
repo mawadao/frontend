@@ -2,16 +2,17 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { Wordmark } from "./Logo";
 import { AppearanceControl } from "./AppearanceControl";
-import { site } from "@/lib/site";
+import { hasEmail, site } from "@/lib/site";
 
 const columns = [
   {
     title: "Explore",
     links: [
       { label: "How it works", href: "/#how-it-works" },
+      { label: "Marketplace", href: "/marketplace" },
       { label: "Projects", href: "/#projects" },
       { label: "Governance", href: "/#governance" },
-      { label: "Child safety", href: "/#safety" },
+      { label: "Safeguarding", href: "/#safety" },
       { label: "Roadmap", href: "/#roadmap" },
     ],
   },
@@ -34,7 +35,7 @@ const columns = [
     title: "Get in touch",
     links: [
       { label: "Get involved", href: "/#contact" },
-      { label: site.email, href: `mailto:${site.email}` },
+      { label: site.email, href: hasEmail ? `mailto:${site.email}` : "/#contact" },
     ],
   },
 ];
@@ -59,10 +60,10 @@ export function Footer() {
     <footer className="border-t border-line bg-bg-alt text-caption text-fg-2">
       <div className="mx-auto max-w-[1024px] px-4 pt-10 pb-8 sm:px-6 sm:pt-12">
         <p className="border-b border-line pb-4 leading-relaxed">
-          mawaDao is a non-profit, community-owned marketplace for responsible AI agents, governed as a decentralised
-          autonomous organisation. Built by the community, owned by the community, for the children who need it most.
-          Open source under the Apache 2.0 Licence. Project names and marks in the catalog belong to their respective
-          owners.
+          mawaDao is a community-owned ecosystem of agentic AI for education, governed as a decentralised autonomous
+          organisation. No fees, no commissions: 75% of every monetised product goes to the contributors who built
+          it, and 25% funds education for deserving children, orphans and street children. Open source under the
+          Apache 2.0 Licence. Project names and marks in the catalog belong to their respective owners.
         </p>
 
         {/* Phones: each column is an accordion with full-height tap rows. */}
