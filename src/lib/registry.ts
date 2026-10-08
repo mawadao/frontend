@@ -1,7 +1,8 @@
-// The mawaDao registry (github.com/mawadao/registry): AI tools and agents listed by the community.
+// The mawaDao registry (github.com/mawadao/marketplace-registry): AI tools and agents listed by the community.
 
-export const REGISTRY_INDEX_URL = process.env.REGISTRY_INDEX_URL || "https://mawadao.github.io/registry/index.json";
-export const REGISTRY_REPO = "https://github.com/mawadao/registry";
+export const REGISTRY_INDEX_URL =
+  process.env.REGISTRY_INDEX_URL || "https://mawadao.github.io/marketplace-registry/index.json";
+export const REGISTRY_REPO = "https://github.com/mawadao/marketplace-registry";
 
 export const AUDIENCES = ["education", "individuals", "business"] as const;
 export type Audience = (typeof AUDIENCES)[number];
