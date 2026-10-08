@@ -38,9 +38,9 @@ export function LogoMark({ className = "h-7 w-7" }: { className?: string }) {
 
 export function Wordmark() {
   return (
-    <span className="flex items-center gap-2">
-      <LogoMark className="h-6 w-6" />
-      <span className="text-callout font-semibold tracking-[-0.01em]">
+    <span className="flex items-center gap-2 whitespace-nowrap">
+      <LogoMark className="h-6 w-6 shrink-0" />
+      <span className="text-callout leading-none font-semibold tracking-[-0.01em]">
         MAWA <span className="text-brand">DAO</span>
       </span>
     </span>

@@ -173,10 +173,10 @@ export default function Home() {
             </p>
           </Reveal>
           <Reveal delay={200}>
-            <h1 className="mt-5 font-display text-hero">
+            <h1 className="mt-5 font-display text-hero text-balance">
               Agentic AI.
               <br />
-              <span className="text-brand">Owned by all of us.</span>
+              <span className="inline-block text-brand text-balance">Owned by all of us.</span>
             </h1>
           </Reveal>
           <Reveal delay={300}>
@@ -189,6 +189,18 @@ export default function Home() {
             <Link href="/#how-it-works" className="group text-body text-link hover:underline">
               See how it works
               <span className="ml-1 inline-block transition-transform group-hover:translate-x-1">›</span>
+            </Link>
+          </Reveal>
+          <Reveal delay={500} className="mt-8 sm:mt-10">
+            <Link
+              href="/#impact"
+              className="press inline-flex min-h-11 items-center gap-2.5 rounded-full border border-fg/12 bg-surface/70 px-4 text-footnote whitespace-nowrap text-fg-2 backdrop-blur-md hover:text-fg sm:text-callout"
+            >
+              <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-gradient-to-br from-gold to-ember" />
+              <span>
+                Already running 2 schools<span className="hidden sm:inline"> for deserving children</span>
+              </span>
+              <span aria-hidden="true">›</span>
             </Link>
           </Reveal>
         </div>
@@ -216,15 +228,15 @@ export default function Home() {
         <dl className="mx-auto mt-12 grid max-w-[900px] grid-cols-2 gap-x-4 gap-y-8 text-center sm:mt-20 sm:grid-cols-4 sm:gap-y-10">
           {[
             ["Free", "to create, list and use"],
-            ["75%", "to the contributors who built it"],
-            ["25%", "funds children's education"],
-            ["2", "mawa schools already running"],
+            ["75%", "to contributors"],
+            ["25%", "to children's education"],
+            ["0%", "commission, ever"],
           ].map(([value, label], i) => (
             <Reveal key={label} delay={i * 80}>
               <dt className="sr-only">{label}</dt>
               <dd>
                 <span className="block font-display text-figure">{value}</span>
-                <span className="mt-2 block text-footnote text-fg-2 sm:text-callout">{label}</span>
+                <span className="mt-2 block text-footnote text-balance text-fg-2 sm:text-callout">{label}</span>
               </dd>
             </Reveal>
           ))}
@@ -235,14 +247,26 @@ export default function Home() {
           <p className="mt-3 font-display text-subhead font-semibold text-balance sm:mt-4 sm:text-title">{site.mission}</p>
         </Reveal>
 
-        <Reveal delay={80} className="mx-auto mt-10 max-w-[700px] text-center sm:mt-14">
-          <p className="text-body text-fg-2">
-            <span className="font-semibold text-fg">mawa already runs two schools</span> for deserving children, and
-            mawaDao extends that mission into the age of AI. We&rsquo;re now setting up{" "}
-            <span className="font-semibold text-fg">Mawa School for AI</span>, to give them — and orphans and street
-            children — the skills to learn with, use and build AI.
-          </p>
-        </Reveal>
+        {/* Rows are shared (subgrid) so the eyebrow, headline and body line up across both cards. */}
+        <div id="impact" className="mx-auto mt-4 grid max-w-[900px] scroll-mt-20 gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5">
+          <Reveal className="flex flex-col gap-3 rounded-[28px] bg-bg-alt px-7 py-8 sm:row-span-3 sm:grid sm:grid-rows-subgrid sm:p-10">
+            <p className="text-footnote font-semibold tracking-[0.06em] text-accent-text uppercase">Already running</p>
+            <p className="font-display text-figure leading-none sm:self-end">
+              <span className="text-brand">2 schools</span>
+            </p>
+            <p className="text-body text-fg-2">
+              mawa already runs two schools for deserving children. mawaDao extends that mission into the age of AI.
+            </p>
+          </Reveal>
+          <Reveal delay={90} className="flex flex-col gap-3 rounded-[28px] bg-bg-alt px-7 py-8 sm:row-span-3 sm:grid sm:grid-rows-subgrid sm:p-10">
+            <p className="text-footnote font-semibold tracking-[0.06em] text-fg-2 uppercase">Next</p>
+            <h3 className="font-display text-title sm:self-end">Mawa School for AI</h3>
+            <p className="text-body text-fg-2">
+              Teaching deserving children, orphans and street children to learn with, use and build AI. Every product
+              monetised on mawaDao helps fund it.
+            </p>
+          </Reveal>
+        </div>
       </section>
 
       {/* How it works */}
@@ -259,9 +283,17 @@ export default function Home() {
             }
             lede="Developers build and list agents, free. Educators, students and content creators use them to teach, learn, research and inform. When a product earns money, the community shares in it."
           />
-          <ol className="gallery sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          {/* Five steps: three across, then two, so neither row is left with a gap. */}
+          <ol className="gallery sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-6">
             {steps.map(([title, body], i) => (
-              <Reveal as="li" key={title} delay={(i % 3) * 90} className="rounded-[28px] bg-surface p-7 sm:p-8">
+              <Reveal
+                as="li"
+                key={title}
+                delay={(i % 3) * 90}
+                className={`rounded-[28px] bg-surface p-7 sm:p-8 ${i < 3 ? "lg:col-span-2" : "lg:col-span-3"} ${
+                  i === steps.length - 1 ? "sm:col-span-2" : ""
+                }`}
+              >
                 <span className="font-display text-figure text-brand">{i + 1}</span>
                 <h3 className="mt-4 text-headline sm:mt-6">{title}</h3>
                 <p className="mt-2 text-body text-fg-2">{body}</p>
@@ -280,7 +312,7 @@ export default function Home() {
               <Reveal
                 key={f.title}
                 delay={(i % 3) * 90}
-                className={`flex flex-col justify-between rounded-[28px] p-7 sm:min-h-[260px] sm:p-10 ${f.className ?? ""} ${
+                className={`flex flex-col rounded-[28px] p-7 sm:p-10 ${f.className ?? ""} ${
                   f.feature ? "bg-gradient-to-br from-[#0f0c29] via-[#24243e] to-[#302b63] text-[#f5f5f7]" : "bg-bg-alt"
                 }`}
               >
@@ -354,9 +386,15 @@ export default function Home() {
             title="Because it serves children and young people, safety comes first."
             lede="Every agent listed on mawaDao must meet these standards."
           />
-          <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3">
+          <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-6">
             {safety.map((s, i) => (
-              <Reveal key={s.title} delay={(i % 3) * 90} className="grid grid-cols-[auto_1fr] gap-x-4 sm:block">
+              <Reveal
+                key={s.title}
+                delay={(i % 3) * 90}
+                className={`grid grid-cols-[auto_1fr] gap-x-4 sm:block ${i < 3 ? "lg:col-span-2" : "lg:col-span-3"} ${
+                  i === safety.length - 1 ? "sm:col-span-2" : ""
+                }`}
+              >
                 <span className="row-span-2 flex h-11 w-11 items-center justify-center rounded-[12px] bg-surface text-cta sm:h-12 sm:w-12 sm:rounded-[14px]">
                   <Icon name={s.icon} className="h-6 w-6" />
                 </span>
@@ -372,9 +410,16 @@ export default function Home() {
       <section id="who" className="bg-bg px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-[1100px]">
           <SectionHead eyebrow="Who it is for" title="A place for everyone who wants to help." />
-          <div className="grid gap-3 sm:grid-cols-2 sm:gap-5">
+          {/* People who build (two wide), then people who learn and teach (three across). */}
+          <div className="grid gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-6">
             {audiences.map((a, i) => (
-              <Reveal key={a.who} delay={(i % 2) * 90} className="flex gap-4 rounded-[24px] bg-bg-alt p-6 sm:gap-6 sm:rounded-[28px] sm:p-8">
+              <Reveal
+                key={a.who}
+                delay={(i % 3) * 90}
+                className={`flex gap-4 rounded-[24px] bg-bg-alt p-6 sm:gap-6 sm:rounded-[28px] sm:p-8 ${
+                  i < 2 ? "lg:col-span-3" : "lg:col-span-2"
+                } ${i === audiences.length - 1 ? "sm:col-span-2" : ""}`}
+              >
                 <span className="text-ember">
                   <Icon name={a.icon} className="h-7 w-7 sm:h-8 sm:w-8" />
                 </span>
@@ -403,7 +448,12 @@ export default function Home() {
             />
 
             {phases.map(([title, body], i) => (
-              <Reveal as="li" key={title} delay={i * 100} className="relative lg:text-center">
+              <Reveal
+                as="li"
+                key={title}
+                delay={i * 100}
+                className="relative lg:row-span-2 lg:grid lg:grid-rows-subgrid lg:gap-y-3 lg:text-center"
+              >
                 {i < phases.length - 1 && (
                   <span
                     aria-hidden="true"
@@ -416,10 +466,10 @@ export default function Home() {
                   </span>
                   <div className="lg:mt-6">
                     <p className="text-footnote font-semibold tracking-[0.06em] text-fg-2 uppercase">Phase {i + 1}</p>
-                    <h3 className="text-headline">{title}</h3>
+                    <h3 className="text-headline text-balance">{title}</h3>
                   </div>
                 </div>
-                <p className="mt-2 pl-16 text-callout text-fg-2 lg:mx-auto lg:mt-3 lg:max-w-[13rem] lg:pl-0">{body}</p>
+                <p className="mt-2 pl-16 text-callout text-fg-2 lg:mx-auto lg:mt-0 lg:max-w-[13rem] lg:pl-0">{body}</p>
               </Reveal>
             ))}
           </ol>

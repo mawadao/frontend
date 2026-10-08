@@ -135,12 +135,12 @@ export function Nav() {
       />
 
       <nav aria-label="Main" className={`pointer-events-auto relative ${dark ? "text-white" : "text-fg"}`}>
-        <div className="mx-auto flex h-13 max-w-[1024px] items-center justify-between px-4 sm:px-6">
-          <Link href="/" aria-label="mawaDao home" onClick={() => setOpen(false)} className="press">
+        <div className="mx-auto flex h-13 max-w-[1148px] items-center justify-between gap-6 px-4 sm:px-6">
+          <Link href="/" aria-label="mawaDao home" onClick={() => setOpen(false)} className="press shrink-0">
             <Wordmark />
           </Link>
 
-          <ul className="hidden items-center gap-8 text-footnote md:flex">
+          <ul className="hidden items-center gap-6 whitespace-nowrap text-footnote lg:flex xl:gap-8">
             {nav.map((item) => (
               <li key={item.href}>
                 <Link
@@ -154,8 +154,11 @@ export function Nav() {
             ))}
           </ul>
 
-          <div className="hidden items-center gap-4 md:flex">
-            <AppearanceControl compact className={dark ? "text-white" : "text-fg"} />
+          <div className="hidden shrink-0 items-center gap-4 whitespace-nowrap lg:flex">
+            {/* Also in the footer and the phone menu, so it only joins the bar when there's room. */}
+            <div className="hidden xl:block">
+              <AppearanceControl compact className={dark ? "text-white" : "text-fg"} />
+            </div>
             {signedIn ? (
               <SignOut className={`text-footnote transition-colors duration-200 ${linkTone("")}`} />
             ) : (
@@ -179,7 +182,7 @@ export function Nav() {
 
           <button
             type="button"
-            className="press -mr-2 flex h-11 w-11 items-center justify-center md:hidden"
+            className="press -mr-2 flex h-11 w-11 items-center justify-center lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -200,7 +203,7 @@ export function Nav() {
       <div
         id="mobile-menu"
         inert={!open}
-        className={`relative h-[calc(100svh-3.25rem)] overflow-y-auto md:hidden ${open ? "pointer-events-auto" : ""}`}
+        className={`relative h-[calc(100svh-3.25rem)] overflow-y-auto lg:hidden ${open ? "pointer-events-auto" : ""}`}
       >
         <ul className="px-8 pt-6">
           {nav.map((item, i) => (
