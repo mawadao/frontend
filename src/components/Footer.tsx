@@ -60,7 +60,7 @@ export function Footer() {
     <footer className="border-t border-line bg-bg-alt text-caption text-fg-2">
       <div className="mx-auto max-w-[1148px] px-4 pt-10 pb-8 sm:px-6 sm:pt-12">
         <p className="border-b border-line pb-4 leading-relaxed">
-          mawaDao is a community-owned ecosystem of agentic AI for education, governed as a decentralised autonomous
+          maavaDao is a community-owned ecosystem of agentic AI for education, governed as a decentralised autonomous
           organisation. No fees, no commissions: 75% of every monetised product goes to the contributors who built
           it, and 25% funds education for deserving children, orphans and street children. Open source under the
           Apache 2.0 Licence. Project names and marks in the catalog belong to their respective owners.
@@ -110,7 +110,7 @@ export function Footer() {
         <div className="flex flex-col gap-4 pt-5 sm:flex-row sm:items-center sm:justify-between sm:border-t sm:border-line">
           <Wordmark />
           <AppearanceControl className="self-start sm:self-auto" />
-          <p>Copyright © {new Date().getFullYear()} mawaDao. Built in the open.</p>
+          <p>Copyright © {new Date().getFullYear()} maavaDao. Built in the open.</p>
         </div>
       </div>
     </footer>

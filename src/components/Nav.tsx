@@ -136,7 +136,7 @@ export function Nav() {
 
       <nav aria-label="Main" className={`pointer-events-auto relative ${dark ? "text-white" : "text-fg"}`}>
         <div className="mx-auto flex h-13 max-w-[1148px] items-center justify-between gap-6 px-4 sm:px-6">
-          <Link href="/" aria-label="mawaDao home" onClick={() => setOpen(false)} className="press shrink-0">
+          <Link href="/" aria-label="maavaDao home" onClick={() => setOpen(false)} className="press shrink-0">
             <Wordmark />
           </Link>
 
@@ -174,7 +174,7 @@ export function Nav() {
                   href="/signup"
                   className="press rounded-full bg-cta px-3.5 py-1.5 text-footnote font-medium text-white hover:bg-cta-hover"
                 >
-                  Join mawaDao
+                  Join maavaDao
                 </Link>
               </>
             )}
@@ -240,7 +240,7 @@ export function Nav() {
           ) : (
             <>
               <Link href="/signup" onClick={() => setOpen(false)} className="press rounded-full bg-cta px-5 py-2.5 text-callout font-medium text-white">
-                Join mawaDao
+                Join maavaDao
               </Link>
               <Link href="/login" onClick={() => setOpen(false)} className="press rounded-full border border-line px-5 py-2.5 text-callout font-medium">
                 Sign in

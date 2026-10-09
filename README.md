@@ -1,8 +1,8 @@
-# mawaDao — frontend
+# maavaDao — frontend
 
-The website for [mawaDao](https://mawadao.com): **a community-owned ecosystem of agentic AI and blockchain technologies for education.**
+The website for [maavaDao](https://maavadao.com): **a community-owned ecosystem of agentic AI and blockchain technologies for education.**
 
-Developers build and list AI agents on the mawa Marketplace, free. Educators, students and content creators use them to teach, learn, research and inform. There are no listing fees, no creation fees and no commissions; when a product earns money, 75% goes to the community who built it and 25% funds education for deserving children, orphans and street children, through a decentralised autonomous organisation (DAO).
+Developers build and list AI agents on the maava Marketplace, free. Educators, students and content creators use them to teach, learn, research and inform. There are no listing fees, no creation fees and no commissions; when a product earns money, 75% goes to the community who built it and 25% funds education for deserving children, orphans and street children, through a decentralised autonomous organisation (DAO).
 
 Built with Next.js 16 (App Router), React 19, TypeScript and Tailwind CSS v4. The design follows Apple's principles of clarity, deference and depth: system typography, generous whitespace, neutral surfaces, a single accent, frosted navigation, scroll reveals, and automatic light and dark mode.
 
@@ -41,7 +41,7 @@ Accounts use [Supabase Auth](https://supabase.com/docs/guides/auth) with Google 
 2. A member without a row in `profiles` goes to `/onboarding` to choose a username, country and role (student, developer, open-source contributor, educator, organisation or funder). They also agree to the code of conduct there.
 3. `src/proxy.ts` refreshes the session on each request. Pages check the user on the server with `getClaims()`.
 
-The database (the `profiles` table, its row-level security and the local Supabase stack) lives in [mawadao/supabase](https://github.com/mawadao/supabase). Its README covers local development and production setup.
+The database (the `profiles` table, its row-level security and the local Supabase stack) lives in [maavadao/supabase](https://github.com/maavadao/supabase). Its README covers local development and production setup.
 
 `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` are read on the server at runtime, so one image works in any environment.
 
@@ -54,7 +54,7 @@ The contact form has no backend either. It opens the visitor's mail app with the
 
 ## Contributing
 
-Pick something, open a pull request, and say hi on [GitHub](https://github.com/mawadao). Not every contribution is code: reviewing agents for safety, translating content and connecting schools all count.
+Pick something, open a pull request, and say hi on [GitHub](https://github.com/maavadao). Not every contribution is code: reviewing agents for safety, translating content and connecting schools all count.
 
 ## Licence
 

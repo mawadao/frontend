@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-/** The MAWA "M" monogram: a connected network path with joint nodes. */
+/** The MAAVA "M" monogram: a connected network path with joint nodes. */
 export function LogoMark({ className = "h-7 w-7" }: { className?: string }) {
   const id = useId();
   return (
@@ -41,7 +41,7 @@ export function Wordmark() {
     <span className="flex items-center gap-2 whitespace-nowrap">
       <LogoMark className="h-6 w-6 shrink-0" />
       <span className="text-callout leading-none font-semibold tracking-[-0.01em]">
-        MAWA <span className="text-brand">DAO</span>
+        MAAVA <span className="text-brand">DAO</span>
       </span>
     </span>
   );

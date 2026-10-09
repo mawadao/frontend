@@ -1,4 +1,4 @@
-# mawadao.com on Google Cloud Run. Builds Next's standalone server and runs it
+# maavadao.com on Google Cloud Run. Builds Next's standalone server and runs it
 # on port 8080 (Cloud Run injects PORT; 8080 is also the default here).
 # SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY are read at runtime; on Cloud Run
 # they come from Secret Manager.

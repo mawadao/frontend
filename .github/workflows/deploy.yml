@@ -1,6 +1,6 @@
 name: Build and deploy
 
-# Lints, builds the container on GitHub Actions and, on main, deploys mawadao.com
+# Lints, builds the container on GitHub Actions and, on main, deploys maavadao.com
 # (Cloud Run service frontend-git). Pull requests only lint and build.
 
 on:
@@ -26,7 +26,7 @@ jobs:
 
   cloud-run:
     needs: lint
-    uses: mawadao/.github/.github/workflows/cloud-run.yml@main
+    uses: maavadao/.github/.github/workflows/cloud-run.yml@main
     with:
       image: website
       service: frontend-git

@@ -58,7 +58,7 @@ export function AuthForm({ mode, next = "/", error }: Props) {
       <div className="text-center">
         <LogoMark className="mx-auto h-16 w-16 drop-shadow-[0_12px_30px_rgb(127_90_240/0.35)]" />
         <h1 className="mt-6 text-title sm:text-[2rem]">
-          {isSignup ? "Join mawaDao" : "Sign in to mawaDao"}
+          {isSignup ? "Join maavaDao" : "Sign in to maavaDao"}
         </h1>
         <p className="mt-2 text-body text-fg-2">
           {isSignup ? "One account to build, review, govern and support." : "Welcome back. Pick up where you left off."}
@@ -104,7 +104,7 @@ export function AuthForm({ mode, next = "/", error }: Props) {
       </div>
 
       <p className="mt-8 text-center text-callout text-fg-2">
-        {isSignup ? "Already a member? " : "New to mawaDao? "}
+        {isSignup ? "Already a member? " : "New to maavaDao? "}
         <Link href={isSignup ? "/login" : "/signup"} className="text-link hover:underline">
           {isSignup ? "Sign in" : "Create an account"}
         </Link>

@@ -17,13 +17,13 @@ export type Project = {
   status: "Building" | "Contributing";
 };
 
-const gh = (repo: string) => `https://github.com/mawadao/${repo}`;
+const gh = (repo: string) => `https://github.com/maavadao/${repo}`;
 
 export const projects: (Project & { href: string })[] = (
   [
     {
-      name: "mawaDao Platform",
-      repo: "mawadao",
+      name: "maavaDao Platform",
+      repo: "maavadao",
       category: "Flagship",
       language: "TypeScript",
       summary:

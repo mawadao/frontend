@@ -18,7 +18,7 @@ function SectionHead({ eyebrow, title, lede }: { eyebrow: string; title: ReactNo
 }
 
 const steps = [
-  ["Create and list, free", "Anyone can build an AI agent and list it on the mawa Marketplace. There is no charge to list, create or publish anything, ever."],
+  ["Create and list, free", "Anyone can build an AI agent and list it on the maava Marketplace. There is no charge to list, create or publish anything, ever."],
   ["Propose a project", "Any community member can propose a new product: an AI science tutor, a research agent for content creators, a clinical-skills trainer."],
   ["The DAO votes", "The community votes on proposals, and approved projects get the backing of the community."],
   ["Build together", "Developers, educators, designers, translators and subject experts contribute. Every contribution is recorded transparently on the blockchain."],
@@ -83,7 +83,7 @@ const safety: { icon: IconName; title: string; body: string }[] = [
   {
     icon: "shield",
     title: "Safeguarding by design",
-    body: "Agents used with children must meet mawaDao's safeguarding and content standards before listing.",
+    body: "Agents used with children must meet maavaDao's safeguarding and content standards before listing.",
   },
   {
     icon: "lock",
@@ -111,12 +111,12 @@ const audiences: { icon: IconName; who: string; body: string }[] = [
   {
     icon: "code",
     who: "AI developers",
-    body: "List agents for free on the mawa Marketplace, contribute to community projects, and earn from what you help build.",
+    body: "List agents for free on the maava Marketplace, contribute to community projects, and earn from what you help build.",
   },
   {
     icon: "signal",
     who: "Content creators",
-    body: "Use mawa agents to research freely, create informative and educational content, and publish it across social media.",
+    body: "Use maava agents to research freely, create informative and educational content, and publish it across social media.",
   },
   {
     icon: "school",
@@ -137,15 +137,15 @@ const audiences: { icon: IconName; who: string; body: string }[] = [
 
 const phases = [
   ["Foundation", "Open-source repository, contributor guidelines and safeguarding standards."],
-  ["mawa Marketplace", "Free agent listing and discovery for educators, students and content creators."],
+  ["maava Marketplace", "Free agent listing and discovery for educators, students and content creators."],
   ["DAO governance", "Project proposals and community voting at local, country and community level."],
-  ["Mawa School for AI", "AI education for deserving children, building on mawa's two existing schools."],
-  ["Community token", "Launch of the mawaDao token, with 75% distributed to developers, contributors and the wider community."],
+  ["Maava School for AI", "AI education for deserving children, building on maava's two existing schools."],
+  ["Community token", "Launch of the maavaDao token, with 75% distributed to developers, contributors and the wider community."],
 ];
 
 const ways = [
   "Build or improve AI agents for education and content creation, or propose your own project",
-  "Use mawa agents to research and create, and share what works",
+  "Use maava agents to research and create, and share what works",
   "Tell us what your learners need and help review agents",
   "Review agents for safety, quality and bias",
   "Translate agents and learning content into local languages",
@@ -184,7 +184,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={400} className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 sm:mt-10">
             <Link href="/signup" className="press rounded-full bg-cta px-7 py-3.5 text-body font-medium text-white hover:bg-cta-hover">
-              Join mawaDao
+              Join maavaDao
             </Link>
             <Link href="/#how-it-works" className="group text-body text-link hover:underline">
               See how it works
@@ -220,7 +220,7 @@ export default function Home() {
           <p className="font-display text-statement text-balance">
             Open-source developers give their expertise away for nothing, and commercial marketplaces can take up to 30% of what creators earn.{" "}
             <span className="text-fg-2">
-              Meanwhile, quality education is still out of reach for millions of children. mawaDao turns this around.
+              Meanwhile, quality education is still out of reach for millions of children. maavaDao turns this around.
             </span>
           </p>
         </Reveal>
@@ -255,15 +255,15 @@ export default function Home() {
               <span className="text-brand">2 schools</span>
             </p>
             <p className="text-body text-fg-2">
-              mawa already runs two schools for deserving children. mawaDao extends that mission into the age of AI.
+              maava already runs two schools for deserving children. maavaDao extends that mission into the age of AI.
             </p>
           </Reveal>
           <Reveal delay={90} className="flex flex-col gap-3 rounded-[28px] bg-bg-alt px-7 py-8 sm:row-span-3 sm:grid sm:grid-rows-subgrid sm:p-10">
             <p className="text-footnote font-semibold tracking-[0.06em] text-fg-2 uppercase">Next</p>
-            <h3 className="font-display text-title sm:self-end">Mawa School for AI</h3>
+            <h3 className="font-display text-title sm:self-end">Maava School for AI</h3>
             <p className="text-body text-fg-2">
               Teaching deserving children, orphans and street children to learn with, use and build AI. Every product
-              monetised on mawaDao helps fund it.
+              monetised on maavaDao helps fund it.
             </p>
           </Reveal>
         </div>
@@ -355,7 +355,7 @@ export default function Home() {
           <SectionHead
             eyebrow="Governance"
             title="Decisions made close to the people they affect."
-            lede="mawaDao combines the principles of a decentralised autonomous organisation with AI. Proposals, votes and outcomes are recorded on-chain, so every decision can be traced and audited."
+            lede="maavaDao combines the principles of a decentralised autonomous organisation with AI. Proposals, votes and outcomes are recorded on-chain, so every decision can be traced and audited."
           />
           <div className="gallery sm:grid sm:gap-5 lg:grid-cols-3">
             {levels.map((l, i) => (
@@ -384,7 +384,7 @@ export default function Home() {
           <SectionHead
             eyebrow="Responsible AI and safeguarding"
             title="Because it serves children and young people, safety comes first."
-            lede="Every agent listed on mawaDao must meet these standards."
+            lede="Every agent listed on maavaDao must meet these standards."
           />
           <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-6">
             {safety.map((s, i) => (
@@ -439,7 +439,7 @@ export default function Home() {
           <SectionHead
             eyebrow="Roadmap"
             title="What we're planning."
-            lede="mawaDao is in its early stage. Here is the path from first agents to verifiable impact."
+            lede="maavaDao is in its early stage. Here is the path from first agents to verifiable impact."
           />
           <ol className="relative grid gap-8 lg:grid-cols-5 lg:gap-6">
             <span
@@ -500,7 +500,7 @@ export default function Home() {
             </ul>
             <ul className="mt-8 space-y-1 text-body sm:mt-10">
               {[
-                ["GitHub", site.links.github, "github.com/mawadao"],
+                ["GitHub", site.links.github, "github.com/maavadao"],
                 ["Discord", site.links.discord, "Join the conversation"],
                 ["Email", hasEmail ? `mailto:${site.email}` : null, site.email],
               ].map(([label, href, text]) => (
